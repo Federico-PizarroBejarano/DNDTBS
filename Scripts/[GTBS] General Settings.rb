@@ -62,7 +62,7 @@ module GTBS
   #-------------------------------------------------------------
   # Defend when unable to attack?
   #-------------------------------------------------------------
-  AUTO_DEFEND = false
+  AUTO_DEFEND = true
   #-------------------------------------------------------------
   # Face Enemy When Battle Begins?
   #-------------------------------------------------------------
@@ -104,7 +104,7 @@ module GTBS
   #-------------------------------------------------------------
   # Show Item/Gold Gain immediately when enemy is killed
   #-------------------------------------------------------------
-  SHOW_ITEMGOLD_IMMEDIATELY = true
+  SHOW_ITEMGOLD_IMMEDIATELY = false
   
   #-------------------------------------------------------------
   # Remove Dead from map upon death?
@@ -154,10 +154,10 @@ module GTBS
   LEVEL_GAIN_SE = "Applause" #when level is gained.. SE to play.
   EXP_ALL = false #when true, all party receives exp - BLARG
   EXP_PERC_FOR_PARTY = 100 #Should receive same as who delivered action
-  EXP_PER_HIT = true
-    POP_EXP = true #display EXP as popup (like damage), not intended to work with EXP_ALL
-    NEUTRAL_EXP = true #neutrals gain exp also?
-  GAIN_EXP_ON_MISS = true
+  EXP_PER_HIT = false
+    POP_EXP = false #display EXP as popup (like damage), not intended to work with EXP_ALL
+    NEUTRAL_EXP = false #neutrals gain exp also?
+  GAIN_EXP_ON_MISS = false
   
   EXP_WAIT_TIME = 30 #Just a little bit of extra wait when exp is given to make the
   #scene flow a little nicer. 
@@ -193,7 +193,7 @@ module GTBS
   # Easy Config:
   # knockback
   #-------------------------------------------------------------
-  KNOCK_BACK_STATES  = []  
+  KNOCK_BACK_STATES  = [28]  
   
   #-------------------------------------------------------------
   # ALLOW_LSHAPE_FOR BOWS
@@ -215,10 +215,10 @@ module GTBS
   # Counter All - Forces defender to always return attack if physical and in 
   # attackable range
   #-------------------------------------------------------------
-  COUNTER_ALL = true
+  COUNTER_ALL = false
   COUNTER_TEAM = false
   COUNTER_WHEN_CHARMED = false
-  COUNTER_WHEN_KNOCKED_BACK = true
+  COUNTER_WHEN_KNOCKED_BACK = false
   
   #-------------------------------------------------------------
   # Enable Move as variable - DO NOT USE THIS YET, IT IS STILL BUGGY AND NOT COMPLETE

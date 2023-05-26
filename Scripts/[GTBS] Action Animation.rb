@@ -247,7 +247,7 @@ class Scene_Battle_TBS
         sym = get_sym_from_dir( who.reverse_dir(sprite.get_direction) )
         img_params[:offset_list] << [sym, $2.to_i]
       end
-    end 
+    end
     return img_params
   end
   #-------------------------------------------------------------------------

@@ -45,7 +45,7 @@ module GTBS
   #-------------------------------------------------------------
   # Use Mini Battle Scene
   #-------------------------------------------------------------
-  Use_Mini_Battle = true
+  Use_Mini_Battle = false
   
   #-------------------------------------------------------------
   # Prevent Mini Scene when more than 1 target and not 'pop individual'
@@ -56,7 +56,7 @@ module GTBS
   #-------------------------------------------------------------
   # Use War Style Mini Battle - Like Fire Emblem War battles
   #-------------------------------------------------------------
-  Use_Mini_War = true #Not implemented
+  Use_Mini_War = false #Not implemented
   
   #-------------------------------------------------------------
   # Unknown Text - To be used when an enemy is marked to show unknown info
@@ -80,12 +80,12 @@ module GTBS
   #-------------------------------------------------------------
   MOVE_CONFIRM = true
   ATTACK_CONFIRM = true #this applies to ALL actions ( Attack/Skill/Item )
-  WAIT_CONFIRM = true
+  WAIT_CONFIRM = false
   
   #-------------------------------------------------------------
   # Force Wait - After both move and action have been performed, force wait phase
   #-------------------------------------------------------------
-  Force_Wait = false
+  Force_Wait = true
   
   #-------------------------------------------------------------
   # Enable Move when active, for actors only

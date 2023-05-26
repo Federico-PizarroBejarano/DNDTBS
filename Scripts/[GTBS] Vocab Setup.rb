@@ -1,16 +1,16 @@
 module Vocab_GTBS
   #Information when placing batlers
-    Place_Message = "Place your characters for battle"
-    Place_Here = "Are you done placing characters?"
+    Place_Message = "Place the team for battle."
+    Place_Here = "Are you done placing the team?"
     No_Enemy_Placed = "There are no enemies on this map, ensure you have placed your events correctly.  Exiting to title"
     No_Actors_Placed="Please place some actor/placement events on your battle map! Exiting to title"
     #Victory/Defeat Conditions shown at the beginning
-    Reach_Condition = "Reach %d, %d"
-    Holdout_Condition = "Holdout %d turns"
-    Protect_Condition="Protect %s"
-    Boss_Condition = "Defeat %s"
-    Defeat_All =  'Defeat all enemies'
-    Escape_Cooldown = "You cannot escape right now"
+    Reach_Condition = "Reach %d, %d."
+    Holdout_Condition = "Holdout %d turns."
+    Protect_Condition="Protect %s."
+    Boss_Condition = "Defeat %s."
+    Defeat_All =  "Defeat all enemies."
+    Escape_Cooldown = "You cannot escape right now."
   
   #Gained experience
   # %1$s is new level, and %2$s is previous level eg. you can do
@@ -33,7 +33,7 @@ module Vocab_GTBS
     Revive_Target = "Revive %s?"   #%s is battler name
     Use_Here = "Use here?"
     Use_Item_Here='Use item here?'
-    Revive_Who="Revive Who?"
+    Revive_Who="Revive Whom?"
     
   #Alert  in revive skill phase
     Cannot_Occupy = "%s cannot occupy that tile"     #%s is battler name
@@ -62,7 +62,7 @@ module Vocab_GTBS
   #Text shown in Battle_Option menu
     Battle_Option_End_Turn = "End Turn"
     Battle_Option_Act_List = "Act List"
-    Battle_Option_Conditions =  "Conditions"
+    Battle_Option_Conditions =  "Goal"
     Battle_Option_Config = "Config"
     Battle_Option_Cancel = "Cancel"
   

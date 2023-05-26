@@ -278,7 +278,7 @@ class Scene_Battle_TBS
     elsif @action.guard? 
       make_skill_result(targets) #cast skill on yourself
     elsif @action.item?
-      if action.item_skill != nil
+      if @action.item_skill != nil
         @spell = @action.skill
         make_skill_result(targets)
         @item = nil
