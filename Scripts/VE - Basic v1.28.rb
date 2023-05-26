@@ -66,7 +66,7 @@
 #------------------------------------------------------------------------------
 # New functions
 #
-# * Random number between two vales
+# * Random number between two values
 #   rand_between(min, max)
 #    min : min value
 #    max : max value

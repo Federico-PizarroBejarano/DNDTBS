@@ -18,8 +18,8 @@ class Sprite_Battler_GTBS < Sprite_Character
   
   POSE_HASH = GTBS::DEFAULT_POSE_NUMBERS
   POSE_HASH_MINKOFF = GTBS::MINKOFF_HOLDER_POSE_NUMBERS
-  LOOP_TYPE = POSE_HASH['Wait'] + POSE_HASH['Walk'] + POSE_HASH['Defend'] + 
-                              POSE_HASH['Dead'] + POSE_HASH['Near Death']  
+  #LOOP_TYPE = POSE_HASH['Wait'] + POSE_HASH['Walk'] + POSE_HASH['Defend'] + 
+   #                           POSE_HASH['Dead'] + POSE_HASH['Near Death']  
 
                               
   alias init_gm_bat_gtbs_base initialize
@@ -59,10 +59,14 @@ class Sprite_Battler_GTBS < Sprite_Character
   #--------------------------------------------------------------------------
   def effect?
     return true if @effect_type != nil
-    #return true if  @weapon.visible
-    #return true if  moving?
-    #result |= LOOP_TYPE.include?(@pose+1)
-    return false
+    return true if  moving?
+    
+    result = false
+    
+    #if (bat.animated?)
+    #  result |= bat.loop_poses.include?(@pose+1)
+    #end
+    return result
   end
   #----------------------------------------------------------------------------
   # Setup New Effect - Edited from Standard Script - Because we are acting
@@ -277,7 +281,7 @@ class Sprite_Battler_GTBS < Sprite_Character
       if @character.death_animation?
         check_animations
       end  
-      pose_hash = POSE_HASH
+      pose_hash = bat.pose_hash
       
       #Ensure that current pose is not pain or death
       if @character_anim && !(pose_hash["Pain"]+pose_hash["Dead"]).include?(@character.pose?+1)
@@ -301,44 +305,8 @@ class Sprite_Battler_GTBS < Sprite_Character
   # Resets pose to wait if applicable
   #-------------------------------------------------------------
   def update_battler_pose
-    if POSE_HASH["Walk"].include?(@pose+1) 
-      @character.set_pose('wait') unless @character.moving?
-    elsif !LOOP_TYPE.include?(@pose+1)
-      @character.set_pose('wait')
-    elsif POSE_HASH["Dead"].include?(@pose+1) 
-      if !@character.dead?
-        @character.set_pose('wait')
-        @character.collapsed = false
-      end
-    elsif POSE_HASH["Near Death"].include?(@pose+1) and 
-      get_near_death_value <= (@character.hp_rate)
-      @character.set_pose('wait')
-    end
-    # Set defend pose if current_actions is defend type
-    if @character.pose? == POSE_HASH["Wait"] and @character.guard?
-      @character.set_pose("defend")
-    end
-    nd_val = get_near_death_value
-    # If waiting or defending, but near death, set near death pose
-    if (POSE_HASH["Wait"]+ POSE_HASH["Defend"]).include?(@character.pose?+1) and
-      nd_val > (@character.hp_rate)
-      if !@character.death_state?
-        @character.set_pose("danger") 
-      elsif @character.death_state? && !@character.will_collapse?
-        @character.set_pose("collapse") 
-      end
-    end
+    check_auto_pose_reassignment
     
-    if (bat.result != nil)
-      #damage showing??
-      if bat.result.hp_damage > 0 || bat.result.mp_damage > 0
-        #set pain pose
-        @character.set_pose("pain")
-      elsif bat.result.hp_damage < 0 || bat.result.mp_damage < 0
-        #set heal pose
-        @character.set_pose("heal")
-      end
-    end
     # Update pose variable
     if @pose != @character.pose?
       @pose = @character.pose?
@@ -352,6 +320,74 @@ class Sprite_Battler_GTBS < Sprite_Character
       update_sound_association
       @pose_started = true
     end
+  end
+  #-------------------------------------------------------------
+  # Check Auto Pose ReAssignment
+  #-------------------------------------------------------------
+  def check_auto_pose_reassignment
+    pose_hash = bat.pose_hash
+    
+    return if pose_hash.keys.size == 0 #not an animated battler
+    
+    # This method handles the replacement of the current animation back to WAIT
+    # or the actor state equivelant at the time of the check.
+    
+    # This method is only executed when the current animation has reset to the 
+    # first frame, or when the POSE has been changed manually via some other
+    # method.  
+    
+    #Firstly, look at the desired pose to current.  If they are 
+    bat.set_pose('wait') if !bat.loop_poses.include?(@pose+1)
+    
+    for key in pose_hash.keys
+      case key
+      
+      #When 'WALKING' ensure target is still moving.  If not, reset to WAIT
+      when /(^walk)/i && pose_hash[key].include?(bat.pose?+1)
+        bat.set_pose('wait') if bat.moving?
+        
+      #Validate still dead.  If not, reset to WAIT
+      when /(^dead|death)/i && pose_hash[key].include?(bat.pose?+1)
+        if bat.dead?
+          bat.set_pose('wait')
+          bat.collapsed = false
+        end
+      
+      #When danger,near death or critical, ensure still the state.  If not, WAIT
+      when /(^danger|near death|critical)/i && pose_hash[key].include?(bat.pose?+1)
+        get_near_death_value <= (@character.hp_rate)
+        bat.set_pose('wait') 
+        
+      #When guarding but pose is wait or neardeath/danger/critical, set guard
+      when bat.guard? && (/(^wait)/i || /(^near death|danger|critical)/i)  &&
+            pose_hash[key].include?(bat.pose?+1)
+        bat.set_pose('defend') #set guard pose
+        
+      #When near death and pose is WAIT, set near death
+      when get_near_death_value > @character.hp_rate && 
+            /(^wait)/i && pose_hash[key].include?(bat.pose?+1) 
+        bat.set_pose('near death')
+        
+        
+        
+        
+        
+      end
+    end
+    
+    #Other auto state pose sets
+    
+    #nd_val = get_near_death_value
+    
+    # If waiting or defending, but near death, set near death pose
+    #if (pose_hash["Wait"] + pose_hash["Defend"]).include?(@character.pose?+1) and
+    #  nd_val > (@character.hp_rate)
+    #  if !@character.death_state?
+    #    @character.set_pose("danger") 
+    #  elsif @character.death_state? && !@character.will_collapse?
+    #    @character.set_pose("collapse") 
+    #  end
+    #end
   end
   #-------------------------------------------------------------
   # Get Direction - Updated for usage with mini battlers
@@ -439,7 +475,7 @@ class Sprite_Battler_GTBS < Sprite_Character
     time = Graphics.frame_count / (Graphics.frame_rate / speed)
     if @last_time < time
       @frame_index = (@frame_index + 1) % @max_frame
-      if @frame_index == 0 || @pose == 0 || @pose != bat.pose?
+      if @frame_index == 0 || @pose != bat.pose?
         # Has reset to first frame.. check if new animation
         # should be called
         update_battler_pose
@@ -597,6 +633,8 @@ class Sprite_Battler_GTBS < Sprite_Character
     @positions[:target][:time] = action.time 
     if (action.jump_peak > 0)
       @positions[:jumppeak] = action.jump_peak
+    else
+      @positions[:jumppeak] = 0; #Disable jumping is current action is not a jump 
     end
     return if action.reset
       

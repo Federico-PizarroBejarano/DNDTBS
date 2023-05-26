@@ -40,6 +40,8 @@ class Scene_Battle_TBS
   def set_mini_battlers(attacker, defender)
     @right_battler.mirror = false
     @left_battler.mirror = false
+    attacker.set_pose("wait");
+    defender.set_pose("wait");
     @right_battler.bat = attacker
     @left_battler.bat = defender
   end

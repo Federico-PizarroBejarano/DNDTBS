@@ -1236,8 +1236,14 @@ class Scene_Battle_TBS < Scene_Base
       battler = (tactics_allies.select {|bat| !$game_system.acted.include?(bat)}).first
       if battler != nil
         @cursor.moveto(battler.pos)
+        cursor_moved
       end
     end
+  end
+  #--------------------------------------------------------------------------
+  # Here for anything that might need to update its screen location
+  #--------------------------------------------------------------------------
+  def cursor_moved
   end
   #--------------------------------------------------------------------------
   #* turn_count
@@ -1914,6 +1920,7 @@ class Scene_Battle_TBS < Scene_Base
         next if actor.team != Battler_Actor
         next if $game_system.acted.include?(actor) 
         @cursor.moveto( actor)
+        cursor_moved
         return
       end 
     end

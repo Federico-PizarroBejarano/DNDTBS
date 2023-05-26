@@ -45,6 +45,20 @@ module GTBS
   #   projectile=normal
   #------------------------------------------------------------
   WEAPON_PROJECTILE = {}
+  
+  #------------------------------------------------------------
+  # Weapon Attack Skill ID
+  #------------------------------------------------------------
+  # This allows you to override the standard 'skill_id' in which is utilized
+  # for attack.  It allows you to assign, per weapon, which attack SKILL should
+  # be performed.
+  #------------------------------------------------------------
+  # Usage:
+  #  WEAPON_ATTACK_SKILL_ID[WEAPON_ID] = SKILL_ID
+  # Easy Config:
+  #  attack_skill = ID
+  #------------------------------------------------------------
+  WEAPON_ATTACK_SKILL_ID = {}
 
   #------------------------------------------------------------
   # Weapon Movement Modifier - Return the value to increase or decrease(-)

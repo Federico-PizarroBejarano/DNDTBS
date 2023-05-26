@@ -64,7 +64,8 @@ module GTBS
 
     [WeaponCausesFlight, /^fly\s*=\s*(true)/i, 2],
     [WalkOnWater_Weapons, /(^walk_on_water)/i, 2],
-    [WEAPON_ANCHOR_DIR,  /^(anchor|origin)\s*=\s*(\d)/i]
+    [WEAPON_ANCHOR_DIR,  /^(anchor|origin)\s*=\s*(\d)/i],
+    [WEAPON_ATTACK_SKILL_ID, /^attack_skill\s*=\s*(\d+)/i]
   ]
   
 #DATA_ARMORS Config

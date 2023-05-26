@@ -54,7 +54,7 @@ module Script_ImportExport
   ScriptFile = "./Data/Scripts.rvdata2"
   
   #--------------------------------------------------------------------
-  Export_Core_Scripts = false
+  Export_Core_Scripts = true
   Overwrite_Core_Scripts = false
   
   #--------------------------------------------------------------------
@@ -66,7 +66,7 @@ module Script_ImportExport
     "?" => "_",
     "<" => "_",
     ">" => "_",
-    "|" => "¦"
+    "|" => "Â¦"
   }
   
   CORE_SCRIPTS = ["Vocab", "Sound", "Cache", "DataManager", "SceneManager", 
@@ -96,7 +96,7 @@ module Script_ImportExport
   "Scene_Menu", "Scene_ItemBase", "Scene_Item", "Scene_Skill", "Scene_Equip", 
   "Scene_Status", "Scene_File", "Scene_Save", "Scene_Load", "Scene_End", 
   "Scene_Shop", "Scene_Name", "Scene_Debug", "Scene_Battle", "Scene_Gameover",
-  "Main", "( Insert here )"]
+  "Main"]
   
   #------------------------------------------------------------------
   # Load Data from file
@@ -175,17 +175,17 @@ module Script_ImportExport
     buf_len = Win32API.new('user32','GetWindowTextLength', 'L', 'I').call(console_w)
     str = ' ' * (buf_len + 1)
     Win32API.new('user32', 'GetWindowText', 'LPI', 'I').call(console_w , str, str.length)
-
+ 
     # Initiate console
     Win32API.new('kernel32.dll', 'AllocConsole', '', '').call
     Win32API.new('kernel32.dll', 'SetConsoleTitle', 'P', '').call('RGSS3 Console')
     $stdout.reopen('CONOUT$')
-
+ 
     # Sometimes pressing F12 will put the editor in focus first,
     # so we have to remove the program's name
     game_title = str.strip
     game_title.sub! ' - RPG Maker VX Ace', ''
-
+ 
     # Set game window to be foreground
     hwnd = Win32API.new('user32.dll', 'FindWindow', 'PP','N').call(0, game_title)
     Win32API.new('user32.dll', 'SetForegroundWindow', 'P', '').call(hwnd)
@@ -198,7 +198,7 @@ module Script_ImportExport
     
     scripts = load_file(ScriptFile)
     num_exported = 0
-
+ 
     for script in scripts
       pre_name = script[1]
       name = ""
@@ -221,9 +221,8 @@ module Script_ImportExport
         file.close
       end
     end
-    print "Scripts Exported: #{num_exported}\n"
+    p "Scripts Exported: #{num_exported}"
   end
-  
   #------------------------------------------------------------------
   # Import - Method for importing scripts
   #------------------------------------------------------------------
@@ -233,7 +232,7 @@ module Script_ImportExport
     imported = []
     main_index = -1
     for i in 0...scripts.size
-      script = scripts[i]
+      script = scripts
       pre_name = script[1]
       name = ""
       pre_name.each_char {|ltr|
@@ -245,7 +244,7 @@ module Script_ImportExport
       end
       filename = Holding_Folder + "/" + name + ".rb"
       if FileTest.exists?(filename)
-        print "Importing Script : #{name}\n"
+        p "Importing Script : #{name}"
         file = File.new(filename, "rb")
         code = file.read
         file.close
@@ -255,7 +254,7 @@ module Script_ImportExport
       if ["Main", "MAIN", "main"].include?(pre_name)
         main_index = i
       end
-      scripts[i] = script
+      scripts = script
     end
     dir = "./" + Holding_Folder + "/"
     #dir = Dir.glob("./" + Holding_Folder + "/*.rb")
@@ -284,7 +283,7 @@ module Script_ImportExport
           imported << name
           main_index += 1
           break;
-        elsif Input.trigger?(Input::B)
+        elsif Input.trigger?(Input:: B)
           break;
         end
       end

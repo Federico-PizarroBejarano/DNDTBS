@@ -49,6 +49,12 @@ class Sprite_Battler_GTBS < Sprite_Character
   #--------------------------------------------------------------------------
   def set_damage
     @damage_sprite.set_damage(bat) if bat 
+    case @damage_sprite.damage_type
+    when :hp_recover, :mp_recover, :tp_recover
+      bat.set_pose("heal")
+    else
+      bat.set_pose("pain")
+    end
     bat.clear_damage_flags
   end
   alias effect_gtbs_bat_dmg_pop effect?

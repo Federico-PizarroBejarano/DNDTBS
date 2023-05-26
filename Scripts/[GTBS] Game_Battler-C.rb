@@ -119,7 +119,16 @@ class Game_Battler < Game_BattlerBase
     return GTBS::ENEMY_Animation_Mode[self.enemy_id] || GTBS::DEFAULT_ANIMATION_METHOD
   end
   
-  
+  def loop_poses
+    case anim_mode
+    when :GTBS
+      return GTBS::LOOPING_STANCE
+    when :MINKOFF
+      return GTBS::LOOPING_STANCE_MINKOFF
+    else
+      return []
+    end
+  end
   
   #--------------------------------------------------------------------------
   # Animated Battler Type = 
@@ -348,46 +357,12 @@ class Game_Battler < Game_BattlerBase
     else
       @pose = get_pose_number_from_name(type)
     end
-    #when /^(wait|idle)/i 
-    #  @pose = POSE_HASH["Wait"][0]-1
-    #when /^(walk|advance|retreat|escape)/i
-    #  @pose = POSE_HASH["Walk"][0]-1
-    #when /^(attack)/i
-    #  redefined, extra_poses = self.extra_attack_poses
-    #  if redefined
-    #    result = extra_poses
-    #    if result != nil
-    #      possible = result + POSE_HASH["Attack"]
-    #    else
-    #      possible = POSE_HASH["Attack"]
-    #    end
-    #  else
-    #    possible = [POSE_HASH["Attack"][0]]
-    #  end
-    #  set = possible[rand(possible.size)]
-    #  @pose = set-1
-    #when /^(special|skill)/i
-    #  @pose = POSE_HASH["Special"][0]-1
-    #when /^(defend|guard|evade)/i
-    #  @pose = POSE_HASH["Defend"][0]-1
-    #when /^(pain|hurt)/i
-    #  @pose = POSE_HASH["Pain"][0]-1
-    #when /^(heal|use|item)/i     
-    #  @pose = POSE_HASH["Heal"][0]-1
-    #when /^(casting|magiccast)/i
-    #  @pose = POSE_HASH["Cast Charge"][0]-1
-    #when /^(cast|magic)/i    
-    #  @pose = POSE_HASH["Cast"][0]-1
-    #when /^(near(?:_| )death|danger)/i
-    #  @pose = POSE_HASH["Near Death"][0]-1
-    #  raise Exception.new
-    #when /^(collapse|dead)/i
-    #  @pose = POSE_HASH["Dead"][0]-1
-    #else; set_pose("wait")
-    #end
   end
-  def get_pose_number_from_name(name)
-    #clone the hash so that it doesnt change the actual object as it is inspected.
+  #--------------------------------------------------------------------------
+  # Get Pose Hash
+  #--------------------------------------------------------------------------
+  def pose_hash
+    hash = {}
     case anim_mode
     when :GTBS
       hash = POSE_HASH.clone
@@ -395,10 +370,22 @@ class Game_Battler < Game_BattlerBase
       hash = POSE_HASH_MINKOFF.clone
     when :KADUKI
       msgbox "Kaduki not implemented yet"
-      hash = {}
+    
     when :CHARSET
-      hash = {} #No need to set animated values as this is not an animated option
+      #No need to set animated values as this is not an animated option
     end
+    return hash
+  end
+  #--------------------------------------------------------------------------
+  # Get Pose Number From Name
+  #--------------------------------------------------------------------------
+  # Will return the pose number (at random if neccessary) for the given pose
+  # name.  If more pose numbers than 1, it will be random as to which one
+  # will be utilized. 
+  #--------------------------------------------------------------------------
+  def get_pose_number_from_name(name)
+    #clone the hash so that it doesnt change the actual object as it is inspected.
+    hash = pose_hash;
     for key in hash.keys
       if (key.casecmp(name) == 0) #performs case insensitive comparison
         pose_array = hash[key]
@@ -649,14 +636,14 @@ class Game_Battler < Game_BattlerBase
     return true   if can_walk_over?(x2,y2) #Walk on Water Tech
     return false  unless map_passable?(x, y, d)
     return false  unless map_passable?(x2, y2, reverse_dir(d))
-    return (additional_pass_check(x,y,d,adtnlParam) || true)
+    return additional_pass_check(x,y,d,adtnlParam)
   end
   #--------------------------------------------------------------------------
   # Additional Pass Check - This is an additional pass check for advanced move
   # function scripts.
   #--------------------------------------------------------------------------
   def additional_pass_check(x,y,d,adtnlParam)
-    return nil
+    return true
   end
   #--------------------------------------------------------------------------
   # * Determine if Passable
@@ -1958,5 +1945,16 @@ class Game_Battler < Game_BattlerBase
         end
       end
     end
+  end
+  
+  def attack_skill_id
+    result = 1 #default to standard attack skill
+    for wep in weapons
+      if GTBS::WEAPON_ATTACK_SKILL_ID[wep.id] != nil
+        result = GTBS::WEAPON_ATTACK_SKILL_ID[id]
+        break; #use only the first weapon (in the case there are more than one)
+      end
+    end
+    return result
   end
 end
