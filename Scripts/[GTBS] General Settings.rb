@@ -151,7 +151,7 @@ module GTBS
   #-------------------------------------------------------------
   # EXP GAIN OPTIONS
   #-------------------------------------------------------------
-  LEVEL_GAIN_SE = "Applause" #when level is gained.. SE to play.
+  LEVEL_GAIN_SE = "Applause1" #when level is gained. SE to play.
   EXP_ALL = false #when true, all party receives exp - BLARG
   EXP_PERC_FOR_PARTY = 100 #Should receive same as who delivered action
   EXP_PER_HIT = false

@@ -100,11 +100,11 @@ class Scene_Battle_TBS
       when /^(wait|halt|complete)/i
         action_wait( [nil, nil, ["movement"]] )
       
-      when /^(away|back|backword[s]*)\s*(\d+)/i
-        who = type == "target" ? @action_targets[0] : @active_battler
+      when /^(away|back|backward[s]*)\s*(\d+)/i
+        who = type != "target" ? @action_targets[0] : @active_battler
         sprite = get_battler_sprite(who)
         #reverse direction from sprite
-        sym = get_sym_from_dir( who.reverse_dir(sprite.get_direction) )
+        sym = get_sym_from_dir(sprite.get_direction)
         ma.offset_list << [sym, $2.to_i]
         
       when /^(forward|approach|toward[s]*)\s*(\d+)/i
@@ -239,7 +239,7 @@ class Scene_Battle_TBS
         sym = get_sym_from_dir(sprite.get_direction)
         img_params[:offset_list] << [sym, $2.to_i]
       end
-    when /^(away|back|backword[s]*)\s*(\d+)/i
+    when /^(away|back|backward[s]*)\s*(\d+)/i
       if (img_params[:container] != nil)
         who = img_params[:container]
         sprite = get_battler_sprite(who)

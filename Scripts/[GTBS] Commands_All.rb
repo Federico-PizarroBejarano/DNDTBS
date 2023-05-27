@@ -30,7 +30,7 @@ class Commands_All < TBS_Win_Actor
     add_item_command(@actor.perf_action)
     add_guard_command
     add_equip_command if $imported["YEA-CommandEquip"]
-    add_status_command
+    # add_status_command
     # add_escape_command
   end
   #--------------------------------------------------------------------------

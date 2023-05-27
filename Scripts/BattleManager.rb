@@ -168,9 +168,9 @@ module BattleManager
     $game_system.battle_count += 1
     $game_party.on_battle_start
     $game_troop.on_battle_start
-    $game_troop.enemy_names.each do |name|
-      $game_message.add(sprintf(Vocab::Emerge, name))
-    end
+    # $game_troop.enemy_names.each do |name|
+      # $game_message.add(sprintf(Vocab::Emerge, name))
+    # end
     if @preemptive
       $game_message.add(sprintf(Vocab::Preemptive, $game_party.name))
     elsif @surprise
