@@ -20,7 +20,7 @@ module GTBS
   # 0 - Active Time Battle (ATB)
   # 1 - TEAM (All members of the team act in a single 'TURN')
   #=============================================================================
-  MODE = 1
+  MODE = 0
   
   #=============================================================================
   # ACTOR# events use party position(INDEX) for placement

@@ -31,7 +31,7 @@ class Commands_All < TBS_Win_Actor
     add_guard_command
     add_equip_command if $imported["YEA-CommandEquip"]
     add_status_command
-    add_escape_command
+    # add_escape_command
   end
   #--------------------------------------------------------------------------
   # * Add Attack Command to List
