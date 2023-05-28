@@ -81,6 +81,7 @@ module GTBS
   MOVE_CONFIRM = true
   ATTACK_CONFIRM = true #this applies to ALL actions ( Attack/Skill/Item )
   WAIT_CONFIRM = false
+  SHOW_WAIT_PIC = false
   
   #-------------------------------------------------------------
   # Force Wait - After both move and action have been performed, force wait phase

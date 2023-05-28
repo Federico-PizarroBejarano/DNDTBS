@@ -1964,11 +1964,13 @@ class Scene_Battle_TBS < Scene_Base
   def activate_wait_phase
     @cursor.active = false
     @windows[Menu_Actor].active = false
-    @windows[Menu_Actor].visible = false 
-    unless @wait_pic
-      @wait_pic = Wait_Cursor.new(@spriteset.viewport1, @active_battler)
-      @wait_pic.moveto(@active_battler.x, @active_battler.y-1)
-      @temp_dir = @active_battler.direction
+    @windows[Menu_Actor].visible = false
+    if GTBS::SHOW_WAIT_PIC
+      unless @wait_pic
+        @wait_pic = Wait_Cursor.new(@spriteset.viewport1, @active_battler)
+        @wait_pic.moveto(@active_battler.x, @active_battler.y-1)
+        @temp_dir = @active_battler.direction
+      end
     end
   end
   #----------------------------------------------------------------------------
