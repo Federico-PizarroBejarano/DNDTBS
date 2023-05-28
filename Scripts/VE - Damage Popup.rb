@@ -26,8 +26,8 @@
 #------------------------------------------------------------------------------
 # Compatibility
 #   Requires the script 'Victor Engine - Basic Module' v1.27 or higher
-#   If used with 'Victor Engine - Custom Slip Effect' place this bellow it.
-#   If used with 'Victor Engine - Custom Hit Formula' place this bellow it.
+#   If used with 'Victor Engine - Custom Slip Effect' place this below it.
+#   If used with 'Victor Engine - Custom Hit Formula' place this below it.
 #
 # * Overwrite methods
 #   class Window_BattleLog < Window_Selectable
@@ -58,9 +58,9 @@
 #
 #------------------------------------------------------------------------------
 # Instructions:
-#  To instal the script, open you script editor and paste this script on
-#  a new section bellow the Materials section. This script must also
-#  be bellow the script 'Victor Engine - Basic'
+#  To install the script, open you script editor and paste this script on
+#  a new section below the Materials section. This script must also
+#  be below the script 'Victor Engine - Basic'
 #
 #------------------------------------------------------------------------------
 # States note tags
@@ -235,7 +235,7 @@ module Victor_Engine
   # * Set damage display behavior
   #    The damage display have 3 phases: Start, Middle and End.
   #    It's possible to set diffent behaviors for each of these phases
-  #    The behaviors are set on the VE_POP_BEHAVIOR constant bellow
+  #    The behaviors are set on the VE_POP_BEHAVIOR constant below
   #--------------------------------------------------------------------------
   VE_DAMAGE_MOVE = {
    #type:       [  Start, Middle,    Fim],

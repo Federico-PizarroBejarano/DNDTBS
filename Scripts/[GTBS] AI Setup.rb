@@ -63,18 +63,18 @@ module GTBS_Tactics
     #============================================
     #  Default value used for Default Ai_Tactics
     #============================================
-    #  @name = name                #name is used to set monster's ai_level
-    #  @position = 100                #is the battler looking for safe position?
-    #  @hp_damage = 100         # looking for hp_damage
+    #  @name = name                   # name is used to set monster's ai_level
+    #  @position = 100                # is the battler looking for safe position?
+    #  @hp_damage = 100               # looking for hp_damage
     #  @hp_heal = 100                 # looking for hp_damage
-    #  @mp_damage = 0             # looking for mp damage
-    #  @counter = 0                  # take care of target's counter, 0-100(0 is ignore, 100 is run if you cannot kill)
-    #  @state = 20                         # adding/removing state value
-    #  @mp_save = 50              # easily use mp?
-    #  @death_like = 1.0             # is the the battler looking for death count
-    #  @team = false                   # is the unit looking for team mate
-    #  @team_rate = 0.0             #amplify damage/heal rate on allies
-    #  @predictable = 9              #more the value is, more the choice will be determinist. (against random choice)
+    #  @mp_damage = 0                 # looking for mp damage
+    #  @counter = 0                   # take care of target's counter, 0-100(0 is ignore, 100 is run if you cannot kill)
+    #  @state = 20                    # adding/removing state value
+    #  @mp_save = 50                  # easily use mp?
+    #  @death_like = 1.0              # is the the battler looking for death count
+    #  @team = false                  # is the unit looking for team mate
+    #  @team_rate = 0.0               # amplify damage/heal rate on allies
+    #  @predictable = 9               # more the value is, more the choice will be determinist. (against random choice)
     #============================================
     
     #Initialize a tactic with the parameters of the default tactic (Agressive)

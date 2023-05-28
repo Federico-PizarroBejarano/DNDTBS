@@ -60,8 +60,8 @@
 #
 #------------------------------------------------------------------------------
 # Instructions:
-#  To instal the script, open you script editor and paste this script on
-#  a new section bellow the Materials section.
+#  To install the script, open you script editor and paste this script on
+#  a new section below the Materials section.
 #
 #------------------------------------------------------------------------------
 # New functions
@@ -116,7 +116,7 @@ module Victor_Engine
   # * New method: required_script
   #--------------------------------------------------------------------------
   def self.required_script(name, req, version, type = 0)
-    if type != :bellow && (!$imported[req] || $imported[req] < version)
+    if type != :below && (!$imported[req] || $imported[req] < version)
       msg = "The script '%s' requires the script\n"
       case type
       when :above
@@ -126,9 +126,9 @@ module Victor_Engine
       end
       msg += "Go to http://victorscripts.wordpress.com/ to download this script."
       self.exit_message(msg, name, req, version)
-    elsif type == :bellow && $imported[req]
+    elsif type == :below && $imported[req]
       msg =  "The script '%s' requires the script\n"
-      msg += "'%s' to be put bellow it\n"
+      msg += "'%s' to be put below it\n"
       msg += "move the scripts to the proper position"
       self.exit_message(msg, name, req, version)
     end
