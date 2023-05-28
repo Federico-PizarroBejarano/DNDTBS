@@ -47,7 +47,7 @@ class Windows_Status_GTBS < TBS_Window_Base
   def setup_gauges
     @gauges_setup = true
     add_type = [0, 1]
-    add_type += [2] if ($game_system.cust_battle == "ATB")
+    add_type += [2] if ($game_system.cust_battle == "ATB" && GTBS::Show_Action_Time_value)
     add_type += [3] if ($data_system.opt_display_tp)
     y_spacing = (add_type.size > 3 ? 18 : 24)
     ind = 0
@@ -63,7 +63,7 @@ class Windows_Status_GTBS < TBS_Window_Base
         @mp_bar.set_symbol(Vocab.mp)
       when 2#at
         @at_bar = Progress_Bar.new(self, 0, y, type)
-        @at_bar.set_symbol(Vocab.at) if GTBS::Show_Action_Time_value
+        @at_bar.set_symbol(Vocab.at)
       when 3#tp
         @tp_bar = Progress_Bar.new(self, 0, y, type)
         @tp_bar.set_symbol(Vocab.tp)
@@ -227,7 +227,7 @@ class Windows_Status_GTBS < TBS_Window_Base
   # Refresh ATB - draws the atb
   #----------------------------------------------------------------------------
   def refresh_act
-    return if $game_system.cust_battle == "TEAM"
+    return if $game_system.cust_battle == "TEAM" || !GTBS::Show_Action_Time_value
     atb = @actor.atb
     atb_max = @actor.recuperation_time
     if atb > atb_max or atb == 0
