@@ -25,7 +25,7 @@ module GTBS
 #            
 #==============================================================
 
-  # a parameter is set wirh an array [ Hash_To_Store, reg_exp, is_bool?, protect_string?]
+  # a parameter is set with an array [ Hash_To_Store, reg_exp, is_bool?, protect_string?]
   #DATA_SKILLS Config
   SKILLS_EASY_CONFIG = [
     [ SKILL_RANGE, /^range\s*=(\[\s*\d+\s*,\s*\d+\s*,\s*(true|false)\s*,\s*(true|false)\s*,\s*\d+\s*(,\s*\d+\s*,\s*\d+)?\s*\])/i],
@@ -54,7 +54,7 @@ module GTBS
     [ITEM_RANGE, /^range\s*=\s*(\[\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*\d+\s*,\s*\d+\s*)?\])/i]
   ]
 
-  #DATA_WEAPONS Cconfig
+  #DATA_WEAPONS Config
   WEAPONS_EASY_CONFIG = [
     [WEAPON_RANGE, /^range\s*=\s*(\[\s*\d+\s*,\s*\d+\s*,\s*(true|false)\s*,\s*(true|false)\s*,\s*\d+\s*(,\s*\d+\s*,\s*\d+\s*)?\])/i], 
     [WEAPON_Move_Info, /^move\s*=\s*([\s*-*\d\s*]+)/i],

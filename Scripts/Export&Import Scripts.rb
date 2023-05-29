@@ -215,7 +215,7 @@ module Script_ImportExport
       if code.size > 10
         num_exported += 1
         filename = name + ".rb"
-        print "Exporting Script : #{filename}\n"
+        # print "Exporting Script : #{filename}\n"
         file = File.new("./" + Holding_Folder + "/" +  filename, "wb")
         file.write(code)
         file.close
