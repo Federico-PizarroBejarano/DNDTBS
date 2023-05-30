@@ -7,13 +7,12 @@ class Game_BattlerBase
   attr_accessor   :cha                       # CHA  Charisma
   attr_accessor   :prof_bonus                # Proficiency bonus
 
-  alias base_initialize initialize unless $@
+  alias dnd_battlerbase_initialize initialize unless $@
   def initialize
-    base_initialize
+    dnd_battlerbase_initialize
     @str = @dex = @con = @int = @wis = @cha = 10
     @prof_bonus = 0
   end
-
 end
 
 class Game_Battler < Game_BattlerBase
@@ -77,5 +76,33 @@ class Game_Battler < Game_BattlerBase
     roll = roll + mod
 
     return roll
+  end
+end
+
+class Game_Actor < Game_Battler
+  alias dnd_actor_initialize initialize
+  def initialize(*args)
+    dnd_actor_initialize(*args)
+    @str = self.actor.str
+    @dex = self.actor.dex
+    @con = self.actor.con
+    @int = self.actor.int
+    @wis = self.actor.wis
+    @cha = self.actor.cha
+    @prof_bonus = self.actor.prof_bonus
+  end
+end
+
+class Game_Enemy < Game_Battler
+  alias dnd_enemy_initialize initialize
+  def initialize(*args)
+    dnd_enemy_initialize(*args)
+    @str = self.enemy.str
+    @dex = self.enemy.dex
+    @con = self.enemy.con
+    @int = self.enemy.int
+    @wis = self.enemy.wis
+    @cha = self.enemy.cha
+    @prof_bonus = self.enemy.prof_bonus
   end
 end
