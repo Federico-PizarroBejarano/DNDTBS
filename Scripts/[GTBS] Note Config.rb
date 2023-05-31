@@ -97,6 +97,7 @@ module GTBS
      [En_Atk_Projectile, /^projectile\s*=\s*(.+)/i, 1],
      [PREVENT_EN_WANDER, /(^prevent_wander)/i, 2],
      [Enemy_Weapon, /^weapons\s*=\s*((\d+,?)+)/i,8],
+     [Enemy_Armor, /^armors\s*=\s*((\d+,?)+)/i,8],
      [EnemyTraverseType, /^traverse\s*=\s*(\d+)/i],
      [Cannot_Invite_Enemies, /(^no_invite)/i, 2],
      [EnemiesWhoFly, /^fly\s*=\s*(true)/i, 2],

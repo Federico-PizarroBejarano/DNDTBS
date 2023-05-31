@@ -18,6 +18,10 @@ module SceneManager
   #--------------------------------------------------------------------------
   def self.run
     DataManager.init
+    DNDTBS.easy_config('Weapons', DNDTBS::DND_WEAPONS_EASY_CONFIG)
+    DNDTBS.easy_config('Armors', DNDTBS::DND_ARMORS_EASY_CONFIG)
+    DNDTBS.easy_config('Enemies', DNDTBS::DND_ENEMIES_EASY_CONFIG)
+    DNDTBS.easy_config('Actors', DNDTBS::DND_ACTOR_EASY_CONFIG)
     Audio.setup_midi if use_midi?
     @scene = first_scene_class.new
     @scene.main while @scene

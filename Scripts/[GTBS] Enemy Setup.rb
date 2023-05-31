@@ -126,6 +126,14 @@ module GTBS
   # If only one, then only specify one.
   #----------------------------------------------------
   Enemy_Weapon = {}
+
+  #----------------------------------------------------
+  # Enemy Armor - The armor id that should be used when they are attacked
+  # easy config:
+  # armor=ArmID, ArmID, etc 
+  # If only one, then only specify one.
+  #----------------------------------------------------
+  Enemy_Armor = {}
   
   #----------------------------------------------------
   # Enemy Traverse Type
@@ -235,6 +243,9 @@ class Game_Enemy < Game_Battler
   #----------------------------------------------------
   def weapon
     return (GTBS::Enemy_Weapon[@enemy_id] or 0)
+  end
+  def armor
+    return (GTBS::Enemy_Armor[@enemy_id] or 0)
   end
   def description
     return (EN_Descriptions[@enemy_id] or EN_Desc_Default)

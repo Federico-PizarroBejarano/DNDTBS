@@ -44,6 +44,19 @@ class Game_Enemy < Game_Battler
     return @weapons
   end
   #--------------------------------------------------------------------------
+  # Returns list of armors this enemy carries
+  #--------------------------------------------------------------------------
+  def armors
+    if @armors.nil?
+      @armors = []
+      arms = GTBS::Enemy_Armor[@enemy_id] || []
+      for i in 0...arms.size
+        @armors << $data_armors[arms[i]]
+      end
+    end
+    return @armors
+  end
+  #--------------------------------------------------------------------------
   # Enemy Index within Troop
   #--------------------------------------------------------------------------
   def index

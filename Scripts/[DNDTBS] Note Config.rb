@@ -72,7 +72,7 @@ module DNDTBS
             when 2 # set string
               config[0].call(obj_array[i], $1)
             when 1 # set int
-              config[0].call(obj_array[i], $1)
+              config[0].call(obj_array[i], $1.to_i)
             when 0 # set to true
               config[0].call(obj_array[i])
             else
@@ -85,12 +85,18 @@ module DNDTBS
     end
   end
   
-  DataManager.init
-  self.easy_config('Weapons', DND_WEAPONS_EASY_CONFIG)
-  self.easy_config('Armors', DND_ARMORS_EASY_CONFIG)
-  self.easy_config('Enemies', DND_ENEMIES_EASY_CONFIG)
-  self.easy_config('Actors', DND_ACTOR_EASY_CONFIG)
+  ### FOR DEBUGGING ###
+  # DataManager.init
+  # self.easy_config('Weapons', DND_WEAPONS_EASY_CONFIG)
+  # self.easy_config('Armors', DND_ARMORS_EASY_CONFIG)
+  # self.easy_config('Enemies', DND_ENEMIES_EASY_CONFIG)
+  # self.easy_config('Actors', DND_ACTOR_EASY_CONFIG)
   
-  a = Game_Enemy.new(1, 1)
-  print "#{a.enemy.str}"
+  # julie = $game_actors[1]
+  # jappa = $game_actors[2]
+  # ambriel = $game_actors[3]
+  # enemy = Game_Enemy.new(1, 1)
+  # print "\n #{ambriel.weapons[0].name}\n"
+  # print "\n #{ambriel.attack_mod(julie.weapons[0])}"
+  # print "\n #{enemy.attack_mod(enemy.weapons[0])}\n"
 end

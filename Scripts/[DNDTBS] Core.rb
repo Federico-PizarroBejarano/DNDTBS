@@ -1,5 +1,8 @@
 module DNDTBS
-  def rolld20(advantage=false, disadvantage=false)
+  #--------------------------------------------------------------------------
+  # * Roll a d20 with advantage or disadvantage
+  #--------------------------------------------------------------------------
+  def self.rolld20(advantage=false, disadvantage=false)
     roll = 1+rand(20)
     if advantage && disadvantage
       return roll
@@ -14,25 +17,20 @@ module DNDTBS
     return roll
   end
   
-  def roll(quantity=1, sides=100)
-    total = 0
-    while quantity > 0
-      total += 1+rand(sides)
-      quantity -= 1
+  #--------------------------------------------------------------------------
+  # * Roll any number of dice with any given number of sides
+  #--------------------------------------------------------------------------
+  def self.roll(quantity=1, sides=100, average=false)
+    if average
+      total = (sides/2+0.5)*quantity
+      total = total.to_i
+    else
+      total = 0
+      while quantity > 0
+        total += 1+rand(sides)
+        quantity -= 1
+      end
     end
     return total
-  end
-
-  def calculate_DND_damage(attacker, defender)
-    atk_roll = attacker.attack_roll()
-    if atk_roll == -100                     # Crit miss
-      return 0
-    elsif atk_roll == 100                   # Crit hit
-      return attacker.damage_roll()*2
-    elsif atk_roll >= defender.armor_class  # Hit
-      return attacker.damage_roll()
-    else                                    # Miss
-      return 0
-    end
   end
 end

@@ -76,6 +76,9 @@ class Scene_Battle_TBS < Scene_Base
   def perform_transition
     Graphics.transition(80, "Graphics/System/#{GTBS::TRANSITION_IMAGE}", 80)
   end
+  def perform_short_transition
+    Graphics.transition(0)
+  end
   
   def pre_terminate
     
@@ -1549,7 +1552,7 @@ class Scene_Battle_TBS < Scene_Base
     @windows[Menu_Actor].oy = oy
     @windows[Win_Status].refresh
     
-    perform_transition
+    perform_short_transition
   end
   #----------------------------------------------------------------------------
   def actor_menu_cancel

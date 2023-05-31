@@ -28,7 +28,7 @@ class Commands_All < TBS_Win_Actor
     add_attack_command(@actor.perf_action)
     add_skill_commands(@actor.perf_action)
     add_item_command(@actor.perf_action)
-    add_equip_command if $imported["YEA-CommandEquip"]
+    add_equip_command if $imported["YEA-CommandEquip"] unless GTBS::HIDE_INACTIVE_COMMANDS && @actor.perf_action
     add_guard_command
     # add_status_command
     # add_escape_command
