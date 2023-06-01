@@ -70,7 +70,7 @@ class Game_Battler < Game_BattlerBase
     @result.clear
     @result.used = item_test(user, item)
     print "[ITEM APPLY] #{self.name} is being attacked by #{user.name}.\n"
-    atk_roll = user.attack_roll()
+    atk_roll = user.attack_roll(advantage=false, disadvantage=self.guarding)
     @result.missed = atk_roll < self.armor_class
     print "[ITEM APPLY] #{user.name} attacks with #{atk_roll} against #{self.name}'s AC of #{self.armor_class}.\n"
     @result.evaded = false

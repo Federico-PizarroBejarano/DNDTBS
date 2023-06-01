@@ -54,7 +54,7 @@ class Commands_All < TBS_Win_Actor
   #--------------------------------------------------------------------------
   def add_guard_command
     if @actor.perfaction? == false#@actor.guard_usable?
-      add_command(Vocab::guard, :defend, true)
+      add_command(Vocab_DNDTBS::DODGE, :defend, true)
     else
       add_command(GTBS::Menu_Wait, :wait, true)
     end

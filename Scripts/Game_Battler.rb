@@ -40,6 +40,7 @@ class Game_Battler < Game_BattlerBase
   attr_accessor :animation_mirror         # animation flip horizontal flag
   attr_accessor :sprite_effect_type       # sprite effect
   attr_accessor :magic_reflection         # reflection flag
+  attr_accessor :guarding                 # guarding flag
   #--------------------------------------------------------------------------
   # * Object Initialization
   #--------------------------------------------------------------------------

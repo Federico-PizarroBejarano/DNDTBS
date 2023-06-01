@@ -75,8 +75,9 @@ class Game_Battler < Game_BattlerBase
   #--------------------------------------------------------------------------
   # * Rolls an attack
   #--------------------------------------------------------------------------
-  def attack_roll()
-    roll = DNDTBS::rolld20()
+  def attack_roll(advantage=false, disadvantage=false)
+    print "[ATTACK ROLL] #{self.name} is attacking. AVD: #{advantage} DIS: #{disadvantage}!\n"
+    roll = DNDTBS::rolld20(advantage, disadvantage)
     if roll == 1
       print "[ATTACK ROLL] #{self.name} rolled a critical miss!\n"
       return -100

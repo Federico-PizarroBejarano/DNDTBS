@@ -403,7 +403,7 @@ class Scene_Battle_TBS < Scene_Base
     @windows[Menu_Actor].set_handler(:attack, method(:actor_menu_attack))
     @windows[Menu_Actor].set_handler(:status, method(:actor_menu_status))
     @windows[Menu_Actor].set_handler(:wait, method(:actor_menu_wait))
-    @windows[Menu_Actor].set_handler(:defend, method(:actor_menu_wait))
+    @windows[Menu_Actor].set_handler(:defend, method(:actor_menu_defend))
     @windows[Menu_Actor].set_handler(:skill, method(:actor_menu_skill))
     @windows[Menu_Actor].set_handler(:item, method(:actor_menu_item))
     @windows[Menu_Actor].set_handler(:escape, method(:actor_menu_escape))
@@ -1466,6 +1466,11 @@ class Scene_Battle_TBS < Scene_Base
     else 
       activate_wait_phase 
     end
+  end
+  #----------------------------------------------------------------------------
+  def actor_menu_defend
+    active_battler.guarding = true
+    actor_menu_wait
   end
   #----------------------------------------------------------------------------
   def actor_menu_item
