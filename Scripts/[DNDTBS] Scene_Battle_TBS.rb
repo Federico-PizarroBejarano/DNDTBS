@@ -42,4 +42,10 @@ class Scene_Battle_TBS
       return
     end
   end
+
+  alias dnd_update_window_item update_window_item
+  def update_window_item
+    @windows[Win_Item].actor = @active_battler
+    dnd_update_window_item
+  end
 end

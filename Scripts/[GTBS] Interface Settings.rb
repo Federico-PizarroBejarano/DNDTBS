@@ -120,7 +120,7 @@ module GTBS
   #-------------------------------------------------------------
   # This options allows you to enable/disable damage preview for the status window
   #-------------------------------------------------------------
-  PREVIEW_DAMAGE = false
+  PREVIEW_DAMAGE = true
   
   #-------------------------------------------------------------
   # Hide Inactive Menu Commands

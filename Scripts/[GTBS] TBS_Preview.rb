@@ -42,7 +42,7 @@ class Window_TBS_Preview < TBS_Window_Base
   #----------------------------------------------------------------------------
   def refresh(result)
     bmp = self.contents
-    hit, dmg, amp, hit_states,rem_states, mp = result 
+    hit, dmg, amp, hit_states, rem_states, mp = result 
     ts = bmp.text_size("Hit %: #{hit}")
     x = 5
     y = bmp.height-ts.height
@@ -64,15 +64,15 @@ class Window_TBS_Preview < TBS_Window_Base
        bmp.font.color = Default_Damage_Color
     end
     if dmg != 0
-      bmp.draw_outline_text(x,y,w,h, "#{dmg}(+/- #{amp})", 2) 
+      bmp.draw_outline_text(x,y,w,h, "Avg. Dmg: #{dmg}", 2) 
     elsif  (hit_states.size > 0 or rem_states.size > 0)
-      draw_states(x,state_y,rem_states, rem_states)
+      draw_states(x, state_y, hit_states, rem_states)
     else
-      bmp.draw_outline_text(x,y,w,h, "#{dmg}(+/- #{amp})", 2) 
+      bmp.draw_outline_text(x,y,w,h, "Avg. Dmg: #{dmg}", 2) 
     end
      bmp.font.color = color
    end
-     #----------------------------------------------------------------------------
+  #----------------------------------------------------------------------------
   # Draws State Icons for Plus/Minus states, called via dmg_preview
   #----------------------------------------------------------------------------
   def draw_states(x,y,plus,minus = []) 
