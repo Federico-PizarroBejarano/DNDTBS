@@ -23,4 +23,12 @@ class Game_Battler < Game_BattlerBase
     hit_chance = [hit_chance, 0.95].min
     return hit_chance
   end
+  
+  #--------------------------------------------------------------------------
+  # Initialize atb
+  #--------------------------------------------------------------------------
+  def setup_atb(atb = nil)
+    @atb = DNDTBS::rolld20() + self.dex_mod
+    print "#{self.name} rolled #{@atb - self.dex_mod}+#{self.dex_mod} for initiative!!\n"
+  end
 end

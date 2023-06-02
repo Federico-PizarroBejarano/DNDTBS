@@ -209,7 +209,7 @@ module GTBS
   # dont plan your stategies well.
   # set value at 0 to disable 
   #------------------------------------------------------------- 
-  REDUCE_AT_PERC      = 5
+  REDUCE_AT_PERC      = 0
   
   #-------------------------------------------------------------
   # Counter All - Forces defender to always return attack if physical and in 
