@@ -6,7 +6,7 @@ class Scene_Battle_TBS
   def post_start
     dnd_scene_battle_post_start
     @initiative_order = populate_list
-    @current_initiative = 0
+    @current_initiative = -1
   end
 
   #--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ class Scene_Battle_TBS
   #----------------------------------------------------------------------------
   # Process Battlers - Main battler update thread
   #----------------------------------------------------------------------------
-  def process_atb 
+  def process_atb
     while @active_battler == nil
       process_forced_action
       for battler in tactics_all
@@ -31,12 +31,13 @@ class Scene_Battle_TBS
       return if @using_skill
       @use_spell = next_wait_skill(tactics_all) 
       return unless @use_spell.empty?
-      print "Current initiative is #{@current_initiative}.\n"
       @current_initiative = @current_initiative + 1
+      print "[PROCESS_ATB] Initiative is now #{@current_initiative}.\n"
       if @current_initiative >= @initiative_order.size
         @current_initiative = 0
       end
       next_battler = @initiative_order[@current_initiative]
+      print "[PROCESS_ATB] Next battler is #{next_battler.name}.\n"
       set_active_battler(next_battler)
       return
     end

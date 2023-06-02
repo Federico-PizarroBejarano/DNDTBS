@@ -2,8 +2,6 @@
 # Window ActList
 #===============================================================================
 class Window_ActList < TBS_Window_Selectable
-  Max_Updates = 400
-  Max_List_Size = 20
   Offset_Down = 20
   WLH = 32
   #--------------------------------------------------------------
@@ -15,8 +13,8 @@ class Window_ActList < TBS_Window_Selectable
     div = 8
     x = (Graphics.width/2) - 120
     y = 60
-    super(x,y,240, Max_List_Size * WLH + 32)
-    self.height = Graphics.height - y - Offset_Down 
+    super(x, y, 240, 0)
+    self.height = 30*[@act_list.size, 240].min 
     self.index = 0
     @item_max =1
     refresh
@@ -51,19 +49,20 @@ class Window_ActList < TBS_Window_Selectable
     if @act_list[i].is_a?(Array)
       string = @act_list[i][0].name
       string += "("+@act_list[i][1][0].name+")"
+      atb_num = @act_list[i][0].atb
     else
       string = @act_list[i].name
+      atb_num = @act_list[i].atb
     end
     if @act_list[i] == @actor
-      self.contents.font.color = GTBS::Act_List_Active_Color
-    elsif @act_list[i] == @act_list[self.index]
       self.contents.font.color = GTBS::Act_List_Select_Color
     else
       self.contents.font.color = GTBS::Act_List_Normal_Color
     end
 
     rect = item_rect(i)
-    self.contents.draw_text(rect,"#{i+1} : #{string}")
+    num_spaces = 12-string.size-atb_num.to_s.size
+    self.contents.draw_text(rect,"#{i+1} : #{string}" + " "*num_spaces + "(#{atb_num})")
   end
   #--------------------------------------------------------------
   # Data - Returns the actor for the selected line
