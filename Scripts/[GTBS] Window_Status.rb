@@ -46,9 +46,9 @@ class Windows_Status_GTBS < TBS_Window_Base
   #----------------------------------------------------------------------------
   def setup_gauges
     @gauges_setup = true
-    add_type = [0, 1]
-    add_type += [2] if ($game_system.cust_battle == "ATB" && GTBS::Show_Action_Time_value)
-    add_type += [3] if ($data_system.opt_display_tp)
+    add_type = [0]
+    # add_type += [2] if ($game_system.cust_battle == "ATB" && GTBS::Show_Action_Time_value)
+    # add_type += [3] if ($data_system.opt_display_tp)
     y_spacing = (add_type.size > 3 ? 18 : 24)
     ind = 0
     y_min = 24
@@ -112,7 +112,7 @@ class Windows_Status_GTBS < TBS_Window_Base
   #----------------------------------------------------------------------------
   def update_gauges
     @hp_bar.update
-    @mp_bar.update
+    @mp_bar.update if @mp_bar != nil
     @at_bar.update if @at_bar != nil
     @tp_bar.update if @tp_bar != nil
   end
@@ -175,7 +175,7 @@ class Windows_Status_GTBS < TBS_Window_Base
     refresh_states(true)
     self.visible = true
   end
-    #----------------------------------------------------------------------------
+  #----------------------------------------------------------------------------
   # Lite Refresh - As information is already being shown.. update pertainent info
   #----------------------------------------------------------------------------
   def lite_refresh
@@ -196,7 +196,7 @@ class Windows_Status_GTBS < TBS_Window_Base
     dmg_preview?
   end
 
-   #----------------------------------------------------------------------------
+  #----------------------------------------------------------------------------
   # Refresh HP - draws the hp
   #----------------------------------------------------------------------------
   def refresh_hp
@@ -211,7 +211,7 @@ class Windows_Status_GTBS < TBS_Window_Base
   end
   
   #----------------------------------------------------------------------------
-  # Refresh SP - draws the sp
+  # Refresh MP - draws the mp
   #----------------------------------------------------------------------------
   def refresh_mp
     if @actor.hide_info?
@@ -221,7 +221,7 @@ class Windows_Status_GTBS < TBS_Window_Base
       @mp = @actor.mp
       @maxmp = @actor.mmp
     end
-    @mp_bar.refresh(@mp, @maxmp)
+    @mp_bar.refresh(@mp, @maxmp) if @tp_bar != nil
   end
   #----------------------------------------------------------------------------
   # Refresh ATB - draws the atb

@@ -32,6 +32,10 @@ module DNDTBS
   DND_ENEMIES_EASY_CONFIG =[
     [->(obj, val){ obj.str = val }, /^str\s*=\s*(\d+)/i, 1],
     [->(obj, val){ obj.dex = val }, /^dex\s*=\s*(\d+)/i, 1],
+    [->(obj, val){ obj.con = val }, /^con\s*=\s*(\d+)/i, 1],
+    [->(obj, val){ obj.int = val }, /^int\s*=\s*(\d+)/i, 1],
+    [->(obj, val){ obj.wis = val }, /^wis\s*=\s*(\d+)/i, 1],
+    [->(obj, val){ obj.cha = val }, /^cha\s*=\s*(\d+)/i, 1],
     [->(obj, val){ obj.prof_bonus = val }, /^prof_bonus\s*=\s*(\d+)/i, 1],
   ]
   
@@ -39,6 +43,10 @@ module DNDTBS
   DND_ACTOR_EASY_CONFIG = [
     [->(obj, val){ obj.str = val }, /^str\s*=\s*(\d+)/i, 1],
     [->(obj, val){ obj.dex = val }, /^dex\s*=\s*(\d+)/i, 1],
+    [->(obj, val){ obj.con = val }, /^con\s*=\s*(\d+)/i, 1],
+    [->(obj, val){ obj.int = val }, /^int\s*=\s*(\d+)/i, 1],
+    [->(obj, val){ obj.wis = val }, /^wis\s*=\s*(\d+)/i, 1],
+    [->(obj, val){ obj.cha = val }, /^cha\s*=\s*(\d+)/i, 1],
     [->(obj, val){ obj.prof_bonus = val }, /^prof_bonus\s*=\s*(\d+)/i, 1],
   ]
   

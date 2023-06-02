@@ -1990,7 +1990,7 @@ class Scene_Battle_TBS < Scene_Base
     @windows[Win_Help].hide
   end
   #--------------------------------------------------------------------------------
-  # press ECSAPE on the map
+  # press ESCAPE on the map
   #----------------------------------------------------------------------------
   # Draws area around selected actor/enemy, showing their move attack and spell ranges.
   #----------------------------------------------------------------------------
@@ -2030,7 +2030,7 @@ class Scene_Battle_TBS < Scene_Base
   # Draws Ranges - this applies to target tiles as well  
   # type = 
   #  1*: enemy move, attack,and spell field (check_area)
-  #  2*: actor all                                                  (check_area)
+  #  2*: actor all
   #  3*: battler move range only
   #  4*: actor moved, but not acted
   #  5: spell target area only
