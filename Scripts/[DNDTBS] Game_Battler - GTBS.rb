@@ -28,6 +28,16 @@ class Game_Battler < Game_BattlerBase
   # Initialize atb
   #--------------------------------------------------------------------------
   def setup_atb(atb = nil)
+    if !self.is_a?(Game_Actor)  # All enemies of the same type share initiative
+      for battler in SceneManager.scene.tactics_all
+        if battler.is_a?(Game_Enemy) \
+          && battler.enemy_id == self.enemy_id \
+          && battler.atb
+          @atb = battler.atb
+          return
+        end
+      end
+    end
     @atb = DNDTBS::rolld20() + self.dex_mod
     print "#{self.name} rolled #{@atb - self.dex_mod}+#{self.dex_mod} for initiative!!\n"
   end

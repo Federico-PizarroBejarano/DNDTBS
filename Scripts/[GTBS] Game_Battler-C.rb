@@ -52,7 +52,7 @@ class Game_Battler < Game_BattlerBase
     # * GTBS Extra info
     #--------------------------------------------------------------------------
     @neutral = false                              #GTBS - Neutral Flag
-    @atb = 0                                      #GTBS - Current ATB rating during battle, used to determine when each turn occurs
+    @atb = nil                                      #GTBS - Current ATB rating during battle, used to determine when each turn occurs
     @skillcasting = 0                             #GTBS - Remaining casting time for Skill_cast
     @skill_cast = nil                             #GTBS - Current Skill that is being cast
     @tactic = 1                                   #GTBS - Decide best tactic for attack (Aggressive, Passive, Defensive)

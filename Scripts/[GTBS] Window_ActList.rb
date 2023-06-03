@@ -8,7 +8,19 @@ class Window_ActList < TBS_Window_Selectable
   # * Object Initialization
   #--------------------------------------------------------------
   def initialize(actor, act_list = nil)
-    @act_list = act_list  
+    @act_list = []
+    @act_list = []
+    added_enemies = []
+    for act in act_list
+      if act.is_a?(Game_Actor)
+        @act_list << act
+      else
+        if !added_enemies.include?(act.enemy_id)
+          @act_list << act_list.select{|enemy| enemy.is_a?(Game_Enemy) && enemy.enemy_id == act.enemy_id}
+          added_enemies << act.enemy_id
+        end
+      end
+    end
     @actor = actor
     div = 8
     x = (Graphics.width/2) - 120
@@ -16,7 +28,7 @@ class Window_ActList < TBS_Window_Selectable
     super(x, y, 240, 0)
     self.height = 30*[@act_list.size, 240].min 
     self.index = 0
-    @item_max =1
+    @item_max = 1
     refresh
     self.activate
   end
@@ -48,7 +60,7 @@ class Window_ActList < TBS_Window_Selectable
   def draw_list_item(i)
     if @act_list[i].is_a?(Array)
       string = @act_list[i][0].name
-      string += "("+@act_list[i][1][0].name+")"
+      string += "s" if @act_list[i][0].name[-1] != 's'
       atb_num = @act_list[i][0].atb
     else
       string = @act_list[i].name

@@ -7,7 +7,7 @@ class Scene_Battle_TBS
     if Input.trigger?(Input::C) 
       case @windows[Win_Option].option
       when  Battle_Option::Act_List
-        @windows[Act_List] = Window_ActList.new(@active_battler, populate_list)
+        @windows[Act_List] = Window_ActList.new(@active_battler, @initiative_order)
         @windows[Win_Option].active = false
         @windows[Win_Option].visible = false
         Sound.play_decision 

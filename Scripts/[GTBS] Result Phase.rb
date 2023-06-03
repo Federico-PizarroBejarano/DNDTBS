@@ -32,6 +32,9 @@ class Scene_Battle_TBS
     else
       $game_map.setup(return_to_map) 
     end
+    for battler in SceneManager.scene.tactics_all
+      battler.atb = nil
+    end
     $game_player.moveto(return_x, return_y) if return_x != nil
     $game_player.set_direction(return_dir) if return_dir != nil
     $game_party.clear_summons
