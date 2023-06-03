@@ -61,7 +61,6 @@ module GTBS
     [Weapon_Skill_Range, /^skill_range\s*=\s*(\[\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*\d+\s*,\s*\d+\s*)?\])/i],
     [CHAIN_LIGHTNING_WEAPONS, /(^chain_lighting)/i,2],
     [WEAPON_PROJECTILE, /^projectile\s*=\s*(.+)/i,1],
-
     [WeaponCausesFlight, /^fly\s*=\s*(true)/i, 2],
     [WalkOnWater_Weapons, /(^walk_on_water)/i, 2],
     [WEAPON_ANCHOR_DIR,  /^(anchor|origin)\s*=\s*(\d)/i],

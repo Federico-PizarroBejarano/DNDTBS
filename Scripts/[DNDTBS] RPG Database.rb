@@ -8,11 +8,10 @@ class RPG::Actor
   attr_accessor   :prof_bonus                # Proficiency bonus
   attr_accessor   :move                      # Number of 5ft tiles they can move
 
-  alias dnd_rpg_actor_initialize initialize
-  def initialize(*args)
-    dnd_rpg_actor_initialize(*args)
+  def setup_DND()
     @str = @dex = @con = @int = @wis = @cha = 10
     @prof_bonus = 0
+    @move=6
   end
 end
 
@@ -26,23 +25,22 @@ class RPG::Enemy
   attr_accessor   :prof_bonus                # Proficiency bonus
   attr_accessor   :move                      # Number of 5ft tiles they can move
 
-  alias dnd_rpg_enemy_initialize initialize
-  def initialize(*args)
-    dnd_rpg_enemy_initialize(*args)
+  def setup_DND()
     @str = @dex = @con = @int = @wis = @cha = 10
     @prof_bonus = 0
+    @move = 6
   end
 end
 
 class RPG::Armor
-  attr_accessor   :DND_type
   attr_accessor   :DND_base_armor
-  attr_accessor   :DND_max_dex
+  attr_accessor   :DND_armor_min_str
+  attr_accessor   :DND_armor_stealth_disadv
 
-  alias dnd_rpg_armor_initialize initialize
-  def initialize(*args)
-    dnd_rpg_armor_initialize(*args)
-    @DND_type = @DND_base_armor = @DND_max_dex = 0
+  def setup_DND()
+    @DND_base_armor = 0
+    @DND_armor_min_str = 0
+    @DND_armor_stealth_disadv = false
   end
 end
 
@@ -51,12 +49,21 @@ class RPG::Weapon
   attr_accessor   :DND_finesse_weapon
   attr_accessor   :DND_dmg_die
   attr_accessor   :DND_dmg_dice_num
+  attr_accessor   :DND_heavy_weapon
+  attr_accessor   :DND_light_weapon
+  attr_accessor   :DND_loading_weapon
+  attr_accessor   :DND_two_handed_weapon
+  attr_accessor   :DND_versatile_weapon
   
-  alias dnd_rpg_weapon_initialize initialize
-  def initialize(*args)
-    dnd_rpg_weapon_initialize(*args)
-    @DND_melee_weapon = false
-    @DND_finesse_weapon = false
+  def setup_DND()
+    @DND_melee_weapon = true
     @DND_dmg_die = @DND_dmg_dice_num = 0
+
+    @DND_finesse_weapon = false
+    @DND_heavy_weapon = false
+    @DND_light_weapon = false
+    @DND_loading_weapon = false
+    @DND_two_handed_weapon = false
+    @DND_versatile_weapon = false
   end
 end

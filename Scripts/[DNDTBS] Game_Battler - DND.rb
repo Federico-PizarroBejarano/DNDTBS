@@ -34,6 +34,31 @@ class Game_BattlerBase
   def cha_mod
     return (@cha-10)/2
   end
+
+  #--------------------------------------------------------------------------
+  # * Determine if Equippable
+  #--------------------------------------------------------------------------
+  def equippable?(item)
+    return false unless item.is_a?(RPG::EquipItem)
+    return false if equip_type_sealed?(item.etype_id)
+    return equip_wtype_ok?(item) if item.is_a?(RPG::Weapon)
+    return equip_atype_ok?(item) if item.is_a?(RPG::Armor)
+    return false
+  end
+  #--------------------------------------------------------------------------
+  # * Determine if Weapon Can Be Equipped
+  #--------------------------------------------------------------------------
+  def equip_wtype_ok?(item)
+    equipable = features_set(FEATURE_EQUIP_WTYPE).include?(item.wtype_id)
+    equipable = equipable || self.DND_equipable_weapons.include?(item.id)
+  end
+  #--------------------------------------------------------------------------
+  # * Determine if Armor Can Be Equipped
+  #--------------------------------------------------------------------------
+  def equip_atype_ok?(item)
+    equipable = features_set(FEATURE_EQUIP_ATYPE).include?(item.atype_id)
+    equipable = equipable && (self.str >= item.DND_armor_min_str)
+  end
 end
 
 class Game_Battler < Game_BattlerBase
@@ -48,16 +73,23 @@ class Game_Battler < Game_BattlerBase
   # * The character's Armor Class (AC)
   #--------------------------------------------------------------------------
   def armor_class
-    armor = self.armors[0]
-    if armor.nil?                                                     
-      return 10 + self.dex_mod                                             # No Armor
-    elsif armor.DND_type == 0
-      return armor.DND_base_armor + self.dex_mod                           # Light Armor 
-    elsif armor.DND_type == 1
-      return armor.DND_base_armor + [self.dex_mod, armor.DND_max_dex].min  # Medium Armor
-    elsif armor.DND_type == 2
-      return armor.DND_base_armor                                          # Heavy Armor
+    shield_bonus = 0
+    ac = 10 + self.dex_mod
+    for armor in self.armors
+      if armor.nil?                                                     
+        ac = 10 + self.dex_mod                                             # No Armor
+      elsif armor.atype_id == 0
+        ac = armor.DND_base_armor + self.dex_mod                           # Light Armor 
+      elsif armor.atype_id == 1
+        ac = armor.DND_base_armor + [self.dex_mod, 2].min                  # Medium Armor
+      elsif armor.atype_id == 2
+        ac = armor.DND_base_armor                                          # Heavy Armor
+      elsif armor.atype_id == 3
+        shield_bonus = 2                                                   # Heavy Armor
+      end
     end
+
+    return ac + shield_bonus
   end
 
   #--------------------------------------------------------------------------
@@ -120,6 +152,8 @@ class Game_Battler < Game_BattlerBase
 end
 
 class Game_Actor < Game_Battler
+  attr_accessor   :DND_equipable_weapons         # item ids of additionally equipable items
+
   alias dnd_actor_initialize initialize
   def initialize(*args)
     dnd_actor_initialize(*args)
@@ -131,6 +165,7 @@ class Game_Actor < Game_Battler
     @cha = self.actor.cha
     @prof_bonus = self.actor.prof_bonus
     @move = self.actor.move
+    @DND_equipable_weapons = []
   end
 end
 
