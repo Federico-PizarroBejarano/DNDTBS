@@ -39,7 +39,7 @@ class Game_Actor < Game_Battler
     GTBS::ACTOR_SUMMONS.include?(@actor_id)
   end
   #--------------------------------------------------------------------------
-  # Hide Info? - Used by Window_Status_TBS to determine if to hide hp/mp/at
+  # Hide Info? - Used by Windows_Status_GTBS to determine if to hide hp/mp/at
   #--------------------------------------------------------------------------
   def hide_info?
     return false
@@ -48,7 +48,7 @@ class Game_Actor < Game_Battler
   # * Base Move Range - Returns the move range for the actor based on the class
   #--------------------------------------------------------------------------
   def base_move_range
-    move = GTBS.move_range(@class_id)
+    move = @move
     
     #read armors to determine extra/reduced move
     arms = armors

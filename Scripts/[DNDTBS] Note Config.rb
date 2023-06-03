@@ -37,6 +37,7 @@ module DNDTBS
     [->(obj, val){ obj.wis = val }, /^wis\s*=\s*(\d+)/i, 1],
     [->(obj, val){ obj.cha = val }, /^cha\s*=\s*(\d+)/i, 1],
     [->(obj, val){ obj.prof_bonus = val }, /^prof_bonus\s*=\s*(\d+)/i, 1],
+    [->(obj, val){ obj.move = val }, /^move\s*=\s*(\d+)/i, 1],
   ]
   
   # DATA_ACTORS Config
@@ -48,6 +49,7 @@ module DNDTBS
     [->(obj, val){ obj.wis = val }, /^wis\s*=\s*(\d+)/i, 1],
     [->(obj, val){ obj.cha = val }, /^cha\s*=\s*(\d+)/i, 1],
     [->(obj, val){ obj.prof_bonus = val }, /^prof_bonus\s*=\s*(\d+)/i, 1],
+    [->(obj, val){ obj.move = val }, /^move\s*=\s*(\d+)/i, 1],
   ]
   
   # type = name of the file
@@ -105,6 +107,6 @@ module DNDTBS
   # ambriel = $game_actors[3]
   # enemy = Game_Enemy.new(1, 1)
   # print "\n #{ambriel.weapons[0].name}\n"
-  # print "\n #{ambriel.attack_mod(julie.weapons[0])}"
+  # print "\n #{ambriel.attack_mod(julie.weapons[0])}\n"
   # print "\n #{enemy.attack_mod(enemy.weapons[0])}\n"
 end

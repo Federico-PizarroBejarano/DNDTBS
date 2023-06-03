@@ -6,6 +6,7 @@ class RPG::Actor
   attr_accessor   :wis                       # WIS  Wisdom
   attr_accessor   :cha                       # CHA  Charisma
   attr_accessor   :prof_bonus                # Proficiency bonus
+  attr_accessor   :move                      # Number of 5ft tiles they can move
 
   alias dnd_rpg_actor_initialize initialize
   def initialize(*args)
@@ -23,6 +24,7 @@ class RPG::Enemy
   attr_accessor   :wis                       # WIS  Wisdom
   attr_accessor   :cha                       # CHA  Charisma
   attr_accessor   :prof_bonus                # Proficiency bonus
+  attr_accessor   :move                      # Number of 5ft tiles they can move
 
   alias dnd_rpg_enemy_initialize initialize
   def initialize(*args)

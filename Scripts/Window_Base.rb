@@ -484,9 +484,9 @@ class Window_Base < Window
     if width < 96
       draw_text(xr - 40, y, 42, line_height, current, 2)
     else
-      draw_text(xr - 92, y, 42, line_height, current, 2)
+      draw_text(xr - 72, y, 42, line_height, current, 2)
       change_color(color2)
-      draw_text(xr - 52, y, 12, line_height, "/", 2)
+      draw_text(xr - 30, y, 12, line_height, "/", 2)
       draw_text(xr - 42, y, 42, line_height, max, 2)
     end
   end

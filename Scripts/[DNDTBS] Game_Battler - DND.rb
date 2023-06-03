@@ -6,12 +6,14 @@ class Game_BattlerBase
   attr_accessor   :wis                       # WIS  Wisdom
   attr_accessor   :cha                       # CHA  Charisma
   attr_accessor   :prof_bonus                # Proficiency bonus
+  attr_accessor   :move                      # Number of 5ft tiles they can move
 
   alias dnd_battlerbase_initialize initialize unless $@
   def initialize
     dnd_battlerbase_initialize
     @str = @dex = @con = @int = @wis = @cha = 10
     @prof_bonus = 0
+    @move = 6
   end
 
   def str_mod
@@ -128,6 +130,7 @@ class Game_Actor < Game_Battler
     @wis = self.actor.wis
     @cha = self.actor.cha
     @prof_bonus = self.actor.prof_bonus
+    @move = self.actor.move
   end
 end
 
@@ -142,5 +145,6 @@ class Game_Enemy < Game_Battler
     @wis = self.enemy.wis
     @cha = self.enemy.cha
     @prof_bonus = self.enemy.prof_bonus
+    @move = self.enemy.move
   end
 end

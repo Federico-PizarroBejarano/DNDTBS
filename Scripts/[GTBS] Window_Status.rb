@@ -56,16 +56,16 @@ class Windows_Status_GTBS < TBS_Window_Base
       y = (y_spacing * ind) + y_min
       case type
       when 0#hp
-        @hp_bar = Progress_Bar.new(self, 0,  y, type)
-        @hp_bar.set_symbol(Vocab.hp)
+        @hp_bar = Progress_Bar.new(self, 0,  y)
+        @hp_bar.set_text
       when 1#mp
-        @mp_bar = Progress_Bar.new(self, 0, y, type)
+        @mp_bar = Progress_Bar.new(self, 0, y)
         @mp_bar.set_symbol(Vocab.mp)
       when 2#at
-        @at_bar = Progress_Bar.new(self, 0, y, type)
+        @at_bar = Progress_Bar.new(self, 0, y)
         @at_bar.set_symbol(Vocab.at)
       when 3#tp
-        @tp_bar = Progress_Bar.new(self, 0, y, type)
+        @tp_bar = Progress_Bar.new(self, 0, y)
         @tp_bar.set_symbol(Vocab.tp)
       end
       ind += 1

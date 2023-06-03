@@ -107,7 +107,7 @@ class Game_Enemy < Game_Battler
     return range_data
   end
   #--------------------------------------------------------------------------
-  # Hide Info? - Used by Window_Status_TBS to determine if to hide hp/mp/at
+  # Hide Info? - Used by Windows_Status_GTBS to determine if to hide hp/mp/at
   #--------------------------------------------------------------------------
   def hide_info?
     return Unknown_HP_MP.include?(@enemy_id)
@@ -172,7 +172,7 @@ class Game_Enemy < Game_Battler
   # returns move range based on enemy_id
   #--------------------------------------------------------------------------
   def base_move_range
-    move = GTBS::enemy_move(@enemy_id)
+    move = @move
         # If no move, ensure 0
     move = [0,move].max
     if GTBS::REQUIRED_TP_FOR_MOVE > 0

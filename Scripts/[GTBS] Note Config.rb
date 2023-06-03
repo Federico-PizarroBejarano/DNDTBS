@@ -78,7 +78,7 @@ module GTBS
   
   #DATA_ENEMIES Config
    ENEMIES_EASY_CONFIG =[
-     [Enemy_Move, /^move\s*=\s*(\d+)/i],
+    #  [Enemy_Move, /^move\s*=\s*(\d+)/i],
      [Game_Enemy::Enemy_Classes, /^class*\s*=\s*(.+)/i, 1],
      [Game_Enemy::Enemy_Levels, /^le*ve*l\s*=\s*(\d+)/i],
      [Game_Enemy::Enemy_State_Add, /^state_add\s*=\s*(\[\s*[\s*\d\s*,\s*]\s*\])/i],
@@ -134,7 +134,7 @@ module GTBS
   ]
   
   CLASS_EASY_CONFIG = [
-    [CLASS_MOVE_RANGE, /^move\s*=\s*(\d+)/i],
+    # [CLASS_MOVE_RANGE, /^move\s*=\s*(\d+)/i],
     [CLASS_VIEW_RANGE, /^view\s*=\s*(\d+)/i]
   ]
   
