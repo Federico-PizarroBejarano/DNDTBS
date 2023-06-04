@@ -130,7 +130,7 @@ class Game_Battler < Game_BattlerBase
   def damage_roll(average=false)
     weapon = self.weapons[0]
     if weapon.nil?
-      roll = DNDTBS::roll(1, 4, average)
+      roll = DNDTBS::roll(1, 1, average)
     else
       roll = DNDTBS::roll(weapon.DND_dmg_dice_num, weapon.DND_dmg_die, average)
     end
