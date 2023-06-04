@@ -8,14 +8,6 @@ class Game_BattlerBase
   attr_accessor   :prof_bonus                # Proficiency bonus
   attr_accessor   :move                      # Number of 5ft tiles they can move
 
-  alias dnd_battlerbase_initialize initialize unless $@
-  def initialize
-    dnd_battlerbase_initialize
-    @str = @dex = @con = @int = @wis = @cha = 10
-    @prof_bonus = 0
-    @move = 6
-  end
-
   def str_mod
     return (@str-10)/2
   end
@@ -49,15 +41,15 @@ class Game_BattlerBase
   # * Determine if Weapon Can Be Equipped
   #--------------------------------------------------------------------------
   def equip_wtype_ok?(item)
-    equipable = features_set(FEATURE_EQUIP_WTYPE).include?(item.wtype_id)
-    equipable = equipable || self.DND_equipable_weapons.include?(item.id)
+    equippable = features_set(FEATURE_EQUIP_WTYPE).include?(item.wtype_id)
+    equippable = equippable || self.DND_equippable_weapons.include?(item.id)
   end
   #--------------------------------------------------------------------------
   # * Determine if Armor Can Be Equipped
   #--------------------------------------------------------------------------
   def equip_atype_ok?(item)
-    equipable = features_set(FEATURE_EQUIP_ATYPE).include?(item.atype_id)
-    equipable = equipable && (self.str >= item.DND_armor_min_str)
+    equippable = features_set(FEATURE_EQUIP_ATYPE).include?(item.atype_id)
+    equippable = equippable && (self.str >= item.DND_armor_min_str)
   end
 end
 
@@ -78,13 +70,13 @@ class Game_Battler < Game_BattlerBase
     for armor in self.armors
       if armor.nil?                                                     
         ac = 10 + self.dex_mod                                             # No Armor
-      elsif armor.atype_id == 0
-        ac = armor.DND_base_armor + self.dex_mod                           # Light Armor 
       elsif armor.atype_id == 1
-        ac = armor.DND_base_armor + [self.dex_mod, 2].min                  # Medium Armor
+        ac = armor.DND_base_armor + self.dex_mod                           # Light Armor 
       elsif armor.atype_id == 2
-        ac = armor.DND_base_armor                                          # Heavy Armor
+        ac = armor.DND_base_armor + [self.dex_mod, 2].min                  # Medium Armor
       elsif armor.atype_id == 3
+        ac = armor.DND_base_armor                                          # Heavy Armor
+      elsif armor.atype_id == 4
         shield_bonus = 2                                                   # Heavy Armor
       end
     end
@@ -152,11 +144,11 @@ class Game_Battler < Game_BattlerBase
 end
 
 class Game_Actor < Game_Battler
-  attr_accessor   :DND_equipable_weapons         # item ids of additionally equipable items
+  attr_accessor   :DND_equippable_weapons         # item ids of additionally equippable items
 
   alias dnd_actor_initialize initialize
-  def initialize(*args)
-    dnd_actor_initialize(*args)
+  def initialize(actor_id)
+    @actor_id = actor_id
     @str = self.actor.str
     @dex = self.actor.dex
     @con = self.actor.con
@@ -165,14 +157,15 @@ class Game_Actor < Game_Battler
     @cha = self.actor.cha
     @prof_bonus = self.actor.prof_bonus
     @move = self.actor.move
-    @DND_equipable_weapons = []
+    @DND_equippable_weapons = []
+    dnd_actor_initialize(actor_id)
   end
 end
 
 class Game_Enemy < Game_Battler
   alias dnd_enemy_initialize initialize
-  def initialize(*args)
-    dnd_enemy_initialize(*args)
+  def initialize(index, enemy_id)
+    @enemy_id = enemy_id
     @str = self.enemy.str
     @dex = self.enemy.dex
     @con = self.enemy.con
@@ -181,5 +174,6 @@ class Game_Enemy < Game_Battler
     @cha = self.enemy.cha
     @prof_bonus = self.enemy.prof_bonus
     @move = self.enemy.move
+    dnd_enemy_initialize(index, enemy_id)
   end
 end

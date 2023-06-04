@@ -23,20 +23,23 @@ class Scene_Battle_TBS
   # Call Battle Exit Command
   #----------------------------------------------------------------
   def exit_battle
+    stay_in_last_location = false
     return_to_map, return_x, return_y, return_dir = GTBS::battle_exit_info(@map_id)
     if return_to_map.nil? || return_to_map == false || return_to_map == 0
       return_to_map = @map_id
+      stay_in_last_location = true
     end
-    if (return_to_map == @map_id)
-      $game_map.setup(@map_id )
-    else
-      $game_map.setup(return_to_map) 
-    end
+    $game_map.setup(return_to_map)
     for battler in SceneManager.scene.tactics_all
       battler.atb = nil
     end
-    $game_player.moveto(return_x, return_y) if return_x != nil
-    $game_player.set_direction(return_dir) if return_dir != nil
+    if stay_in_last_location
+      $game_player.moveto($game_party.leader.real_x, $game_party.leader.real_y)
+      $game_player.set_direction($game_party.leader.direction)
+    else
+      $game_player.moveto(return_x, return_y) if return_x != nil
+      $game_player.set_direction(return_dir) if return_dir != nil
+    end
     $game_party.clear_summons
     $game_party.clear_neutrals
     $game_troop.clear_summons

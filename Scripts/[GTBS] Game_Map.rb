@@ -139,7 +139,7 @@ class Game_Map
   # Map Region Transfer ID
   #---------------------------------------------------------------------
   def map_reg_trans(area_id) 
-    #This will return the opoening map_id to transfer to when a battle starts 
+    #This will return the opening map_id to transfer to when a battle starts 
     return GTBS::MAP_Region_Transfer[@map_id][area_id] rescue return nil
   end
   
