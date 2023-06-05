@@ -87,5 +87,8 @@ class Game_Battler < Game_BattlerBase
       print "[ITEM APPLY] #{user.name} missed!.\n"
     end
     print "\n"
+    @damaged = ($game_party.in_battle && @result.hit?)
+    @missed  = ($game_party.in_battle && alive? && !@result.hit?)
+    @no_dmg  = item.damage.none?
   end
 end

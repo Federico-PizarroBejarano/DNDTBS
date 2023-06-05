@@ -133,7 +133,7 @@ class Windows_Status_GTBS < TBS_Window_Base
     x = 0
     y = 0
     width = self.contents.width
-    self.contents.draw_outline_text(x,y,width,24,@actor.name)
+    self.contents.draw_outline_text(x,y,width,24," " + @actor.name)
     self.contents.draw_outline_text(x,y,width,24,@actor.class_name,2)
     x = width-96
     y = 24
@@ -152,7 +152,7 @@ class Windows_Status_GTBS < TBS_Window_Base
     if force or @actor != @states_act or @actor.states != @states
       @states_act = @actor
       x = 0
-      y = self.contents.height-24
+      y = self.contents.height-line_height*3.3
       @states = @actor.states.clone
       draw_states(x,y,@states, [])
     end
@@ -308,6 +308,7 @@ class Windows_Status_GTBS < TBS_Window_Base
   #----------------------------------------------------------------------------
   def draw_states(x,y,plus,minus = [], bmp = nil) 
     i = 0
+    self.contents.clear_rect( 0, 51, 96, 24 )
     for state in plus + minus
       if state.is_a?(Numeric)
         state = $data_states[state]

@@ -112,7 +112,7 @@ module GTBS
   # 1 = Remove Enemies Only
   # 2 = Remove ALL dead
   #-------------------------------------------------------------
-  REMOVE_DEAD = 1
+  REMOVE_DEAD = 0
   #-------------------------------------------------------------
   # Select a dead unit to revive:
   # if REVIVE_ANY_DEAD = true, you can revive units from anywhere
