@@ -81,24 +81,28 @@ module DNDTBS
     max = data.size
     for i in 1...max
       note = data[i].note
-      note.gsub!(/[ \t\r\f]/,"") 
-      for line in note.split("\n")
-        for config in all_config
-          line_note = line.clone
-          line_note.scan(config[1])
-          if $1
-            case config[2]
-            when 2 # set string
-              config[0].call(obj_array[i], $1)
-            when 1 # set int
-              config[0].call(obj_array[i], $1.to_i)
-            when 0 # set to true
-              config[0].call(obj_array[i])
-            else
-              raise "Invalid note config type"
-            end
-            break
+      update_obj_from_note(obj_array[i], note, all_config)
+    end
+  end
+
+  def self.update_obj_from_note(obj, note, all_config)
+    note.gsub!(/[ \t\r\f]/,"")
+    for line in note.split("\n")
+      for config in all_config
+        line_note = line.clone
+        line_note.scan(config[1])
+        if $1
+          case config[2]
+          when 2 # set string
+            config[0].call(obj, $1)
+          when 1 # set int
+            config[0].call(obj, $1.to_i)
+          when 0 # set to true
+            config[0].call(obj)
+          else
+            raise "Invalid note config type"
           end
+          break
         end
       end
     end

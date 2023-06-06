@@ -88,7 +88,10 @@ class Game_Battler < Game_BattlerBase
   # * The modifier on the roll used for an attack with a weapon
   #--------------------------------------------------------------------------
   def attack_mod(weapon)
-    if weapon.nil? || weapon.DND_finesse_weapon
+    if weapon.nil?
+      weapon = $data_weapons[DNDTBS::UNARMED_ATTACK_WEAPON_ID]
+    end
+    if weapon.DND_finesse_weapon
       mod = [self.dex_mod, self.str_mod].max
     elsif weapon.DND_melee_weapon
       mod = self.str_mod
@@ -130,12 +133,11 @@ class Game_Battler < Game_BattlerBase
   def damage_roll(average=false)
     weapon = self.weapons[0]
     if weapon.nil?
-      roll = DNDTBS::roll(1, 1, average)
-    else
-      roll = DNDTBS::roll(weapon.DND_dmg_dice_num, weapon.DND_dmg_die, average)
+      weapon = $data_weapons[DNDTBS::UNARMED_ATTACK_WEAPON_ID]
     end
+    roll = DNDTBS::roll(weapon.DND_dmg_dice_num, weapon.DND_dmg_die, average)
 
-    print "[DAMAGE ROLL] #{self.name} rolled #{roll} for a total of #{roll + self.attack_mod(weapon)} damage!\n"
+    print "[DAMAGE ROLL] #{self.name} rolled #{roll} with their #{weapon.name} for a total of #{roll + self.attack_mod(weapon)} damage!\n"
 
     roll = roll + self.attack_mod(weapon)
 

@@ -16,6 +16,7 @@ class Game_Map
     place_loc = []
     #battle_events = $game_system.battle_events
     @extras = {}
+    $game_troop.clear_enemies
     for j in @events.keys
       event = @events[j]
       next if event.name == nil
@@ -28,7 +29,12 @@ class Game_Map
           when 0 #actors
             actor_loc[id] = event
           when 1 #enemies
-            enemy_loc[id] = event
+            if $data_enemies[id]
+              enemy_loc[$game_troop.members.size+1] = event
+              enemy = Game_Enemy.new($game_troop.members.size, id)
+              DNDTBS::update_obj_from_note(enemy, event.notes, DNDTBS::DND_ENEMIES_EASY_CONFIG)
+              $game_troop.add_enemy(enemy)
+            end
           when 2 #neutrals
             neu_loc[id] = event
           when 3 #battle_events
@@ -41,7 +47,7 @@ class Game_Map
         end
       end
     end
-    
+
     @start_locations = [enemy_loc, actor_loc, neu_loc, place_loc]
   end
   

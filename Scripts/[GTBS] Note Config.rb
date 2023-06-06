@@ -67,7 +67,7 @@ module GTBS
     [WEAPON_ATTACK_SKILL_ID, /^attack_skill\s*=\s*(\d+)/i]
   ]
   
-#DATA_ARMORS Config
+  #DATA_ARMORS Config
   ARMORS_EASY_CONFIG =[
     [EQUIP_Move_Info, /^move\s*=\s*(\-*\d+)/i],
     [Equip_Skill_Range, /^skill_range\s*=\s*(\[\s*\d+\s*,\s*\d+v,\s*\d+\s*(,\s*\d+\s*,\s*\d+\s*)?\])/i],

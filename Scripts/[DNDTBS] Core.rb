@@ -1,4 +1,6 @@
 module DNDTBS
+  UNARMED_ATTACK_WEAPON_ID         = 11               # unarmed attack
+
   #--------------------------------------------------------------------------
   # * Roll a d20 with advantage or disadvantage
   #--------------------------------------------------------------------------

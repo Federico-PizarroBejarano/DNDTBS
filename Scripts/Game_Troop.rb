@@ -50,6 +50,14 @@ class Game_Troop < Game_Unit
     @turn_count = 0
     @names_count = {}
   end
+
+  def clear_enemies
+    @enemies = []
+  end
+
+  def add_enemy(enemy)
+    @enemies.push(enemy)
+  end
   #--------------------------------------------------------------------------
   # * Get Troop Objects
   #--------------------------------------------------------------------------

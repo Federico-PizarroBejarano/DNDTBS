@@ -16,8 +16,13 @@ class Window_ActList < TBS_Window_Selectable
         @act_list << act
       else
         if !added_enemies.include?(act.enemy_id)
-          @act_list << act_list.select{|enemy| enemy.is_a?(Game_Enemy) && enemy.enemy_id == act.enemy_id}
+          enemies = act_list.select{|enemy| enemy.is_a?(Game_Enemy) && enemy.enemy_id == act.enemy_id}
           added_enemies << act.enemy_id
+          if enemies.size > 1
+            @act_list << enemies
+          else
+            @act_list << enemies[0]
+          end
         end
       end
     end

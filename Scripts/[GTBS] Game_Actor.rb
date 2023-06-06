@@ -151,10 +151,7 @@ class Game_Actor < Game_Battler
   def weapon_range(test_lshape = GTBS::BOW_LSHAPE)
     weapon = weapons[0]
     if weapon.nil?
-      weapon = 0
-      range = GTBS.weapon_range(0)
-      range[2] = false unless test_lshape
-      return range
+      weapon = $data_weapons[DNDTBS::UNARMED_ATTACK_WEAPON_ID]
     end
     range = GTBS.weapon_range(weapon.id)
     range[2] = false unless test_lshape
