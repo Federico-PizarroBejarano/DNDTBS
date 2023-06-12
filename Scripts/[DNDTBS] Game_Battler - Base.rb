@@ -90,5 +90,16 @@ class Game_Battler < Game_BattlerBase
     @damaged = ($game_party.in_battle && @result.hit?)
     @missed  = ($game_party.in_battle && alive? && !@result.hit?)
     @no_dmg  = item.damage.none?
+    
+    # Thrown weapons become enemy drops
+    if user.is_a?(Game_Actor) && user.weapons[0] && user.weapons[0].DND_thrown_weapon && $game_map.distance(user, self) > 1
+      weapon = user.weapons[0]
+      user.change_equip(0, nil)
+      user.gain_item(weapon, -1, false)
+      if user.has_item?(weapon, false)
+        user.change_equip(0,weapon)
+      end
+      self.loot << [1, weapon.id, 100]
+    end
   end
 end

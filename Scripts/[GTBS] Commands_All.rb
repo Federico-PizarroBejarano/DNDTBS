@@ -28,7 +28,8 @@ class Commands_All < TBS_Win_Actor
     add_attack_command(@actor.perf_action)
     add_skill_commands(@actor.perf_action)
     add_item_command(@actor.perf_action)
-    add_equip_command if $imported["YEA-CommandEquip"] unless GTBS::HIDE_INACTIVE_COMMANDS && @actor.perf_action
+    add_equip_command if $imported["YEA-CommandEquip"]
+    add_interact_command if !@actor.perf_action #&& @actor.interactable_event_nearby
     add_guard_command
     # add_status_command
     # add_escape_command
@@ -48,7 +49,6 @@ class Commands_All < TBS_Win_Actor
       add_command(name, :skill, true, stype_id) unless GTBS::HIDE_INACTIVE_COMMANDS && @actor.perf_action
     end
   end
-  
   #--------------------------------------------------------------------------
   # * Add Guard Command to List
   #--------------------------------------------------------------------------
@@ -76,6 +76,9 @@ class Commands_All < TBS_Win_Actor
   end
   def add_escape_command
     add_command(Vocab.escape, :escape, BattleManager.can_escape?)
+  end
+  def add_interact_command
+    add_command(Vocab_DNDTBS::INTERACT, :interact, true)
   end
   #--------------------------------------------------------------------------
   # * Setup
@@ -107,11 +110,13 @@ class Commands_All < TBS_Win_Actor
     when :status
       text = Vocab_GTBS::Help_Status
     when :defend
-      text = Vocab_GTBS::Help_Defend
+      text = Vocab_DNDTBS::Help_Dodge
     when :wait
       text = Vocab_GTBS::Help_Wait
     when :escape
       text = Vocab_GTBS::Help_Escape
+    when :interact
+      text = Vocab_DNDTBS::Help_Interact
     end
     text = (text || "")
     

@@ -7,11 +7,13 @@ class RPG::Actor
   attr_accessor   :cha                       # CHA  Charisma
   attr_accessor   :prof_bonus                # Proficiency bonus
   attr_accessor   :move                      # Number of 5ft tiles they can move
+  attr_accessor   :npc                       # Whether the actor is an NPC
 
   def setup_DND()
     @str = @dex = @con = @int = @wis = @cha = 10
     @prof_bonus = 0
-    @move=6
+    @move = 6
+    @npc = false
   end
 end
 
@@ -24,11 +26,13 @@ class RPG::Enemy
   attr_accessor   :cha                       # CHA  Charisma
   attr_accessor   :prof_bonus                # Proficiency bonus
   attr_accessor   :move                      # Number of 5ft tiles they can move
+  attr_accessor   :loot             # Starting loot
 
   def setup_DND()
     @str = @dex = @con = @int = @wis = @cha = 10
     @prof_bonus = 0
     @move = 6
+    @loot = []
   end
 end
 
@@ -46,6 +50,7 @@ end
 
 class RPG::Weapon
   attr_accessor   :DND_melee_weapon
+  attr_accessor   :DND_thrown_weapon
   attr_accessor   :DND_finesse_weapon
   attr_accessor   :DND_dmg_die
   attr_accessor   :DND_dmg_dice_num
@@ -59,6 +64,7 @@ class RPG::Weapon
     @DND_melee_weapon = true
     @DND_dmg_die = @DND_dmg_dice_num = 0
 
+    @DND_thrown_weapon = false
     @DND_finesse_weapon = false
     @DND_heavy_weapon = false
     @DND_light_weapon = false

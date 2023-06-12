@@ -228,8 +228,8 @@ class Scene_ActorTrade < Scene_Base
   def start
     super
     create_all_windows
-    @source_actor = $game_party.members[0]
-    @target_actor = $game_party.members[1]
+    @source_actor = $game_party.traders ? $game_party.traders[0] : $game_party.members[0]
+    @target_actor = $game_party.traders ? $game_party.traders[1] : $game_party.members[1]
     refresh_actors
   end
   
@@ -343,7 +343,7 @@ class Scene_ActorTrade < Scene_Base
   end
   
   def next_actor(actor)
-    members = $game_party.members
+    members = $game_party.traders ? $game_party.traders : $game_party.members
     index = members.index(actor) || -1
     index = (index + 1) % members.size
     return members[index]

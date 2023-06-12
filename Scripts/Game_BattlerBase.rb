@@ -51,6 +51,7 @@ class Game_BattlerBase
   attr_reader   :hp                       # HP
   attr_reader   :mp                       # MP
   attr_reader   :tp                       # TP
+  attr_accessor :fixed_equip_type         # Fixed equipment slots
   #--------------------------------------------------------------------------
   # * Access Method by Parameter Abbreviations
   #--------------------------------------------------------------------------
@@ -88,6 +89,7 @@ class Game_BattlerBase
   def initialize
     @hp = @mp = @tp = 0
     @hidden = false
+    @fixed_equip_type = []
     clear_param_plus
     clear_states
     clear_buffs
@@ -381,7 +383,7 @@ class Game_BattlerBase
   # * Determine if Equipment Is Locked
   #--------------------------------------------------------------------------
   def equip_type_fixed?(etype_id)
-    features_set(FEATURE_EQUIP_FIX).include?(etype_id)
+    features_set(FEATURE_EQUIP_FIX).include?(etype_id) || @fixed_equip_type.include?(etype_id)
   end
   #--------------------------------------------------------------------------
   # * Determine if Equipment Is Sealed

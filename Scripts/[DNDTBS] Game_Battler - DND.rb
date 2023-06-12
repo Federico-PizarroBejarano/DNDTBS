@@ -7,6 +7,7 @@ class Game_BattlerBase
   attr_accessor   :cha                       # CHA  Charisma
   attr_accessor   :prof_bonus                # Proficiency bonus
   attr_accessor   :move                      # Number of 5ft tiles they can move
+  attr_accessor   :loot                      # Loot found when enemy killed
 
   def str_mod
     return (@str-10)/2
@@ -160,7 +161,9 @@ class Game_Actor < Game_Battler
     @prof_bonus = self.actor.prof_bonus
     @move = self.actor.move
     @DND_equippable_weapons = []
+    @npc = self.actor.npc
     dnd_actor_initialize(actor_id)
+    @loot = self.all_items
   end
 end
 
@@ -176,6 +179,7 @@ class Game_Enemy < Game_Battler
     @cha = self.enemy.cha
     @prof_bonus = self.enemy.prof_bonus
     @move = self.enemy.move
+    @loot = self.enemy.loot
     dnd_enemy_initialize(index, enemy_id)
   end
 end

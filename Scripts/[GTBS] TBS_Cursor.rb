@@ -8,6 +8,7 @@ class TBS_Cursor < POS
   Skill = 'skill'
   Item = 'item'
   Move = 'move'
+  Interact = 'interact'
   #
   #      @target_area = [
   #        6, 7, 8           #type

@@ -99,7 +99,7 @@ class Game_Action
     targets += subject.opponents + subject.friends
     targets &= subject.opponents if !GTBS::ATTACK_ALLIES
     targets &= $tbs_cursor.targeted_battlers    
-    targets = targets.select  {|target| target.dead? == false}
+    targets = targets.select{|target| target.dead? == false}
     return targets.compact
   end
   

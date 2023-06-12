@@ -515,5 +515,3 @@ class Game_Actor < Game_Battler
     end
   end
 end
-
-

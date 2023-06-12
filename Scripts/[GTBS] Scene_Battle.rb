@@ -407,6 +407,7 @@ class Scene_Battle_TBS < Scene_Base
     @windows[Menu_Actor].set_handler(:skill, method(:actor_menu_skill))
     @windows[Menu_Actor].set_handler(:item, method(:actor_menu_item))
     @windows[Menu_Actor].set_handler(:escape, method(:actor_menu_escape))
+    @windows[Menu_Actor].set_handler(:interact, method(:actor_menu_interact))
     @windows[Menu_Actor].set_handler(:cancel, method(:actor_menu_cancel))
     @windows[Menu_Actor].set_handler(:equip, method(:actor_menu_equip))
   end
@@ -794,6 +795,8 @@ class Scene_Battle_TBS < Scene_Base
       cursor_use_attack
     when TBS_Cursor::Move
       cursor_use_move
+    when TBS_Cursor::Interact
+      cursor_use_interact
     else# No_Select
       cursor_no_select
     end
@@ -1000,7 +1003,7 @@ class Scene_Battle_TBS < Scene_Base
   # Use skill Actor
   #----------------------------------------------------------------------------
   def update_cursor_skill
-     update_status_revive(@spell)
+    update_status_revive(@spell)
     if Input.trigger?(Input::B)
       Sound.play_cancel
       if @windows[Win_Revive].active
@@ -1013,7 +1016,6 @@ class Scene_Battle_TBS < Scene_Base
       @cursor.active = false 
       clear_tr_sprites
       open_skill_window
-      
     elsif Input.trigger?(Input::C)
       if @windows[Win_Revive].active
         valid_win_revive(@spell)
@@ -1050,6 +1052,30 @@ class Scene_Battle_TBS < Scene_Base
           @cursor.active = false
           @windows[Win_Status].dmg_preview(1, @active_battler, @targets)
           @windows[Win_Confirm].ask(Command_Confirm::Attack)
+          Sound.play_decision
+        else
+          Sound.play_buzzer
+        end
+      else
+        Sound.play_buzzer
+      end
+    end
+  end
+  #----------------------------------------------------------------------------
+  # Actor interact
+  #----------------------------------------------------------------------------
+  def cursor_use_interact
+    if Input.trigger?(Input::B) 
+      Sound.play_cancel
+      disable_cursor
+      clear_tr_sprites
+      actor_menu_open
+    elsif Input.trigger?(Input::C) 
+      if @cursor.in_range?
+        @targets = get_interact_targets
+        if @targets.size > 0
+          @cursor.active = false
+          @windows[Win_Confirm].ask(Command_Confirm::Interact)
           Sound.play_decision
         else
           Sound.play_buzzer
@@ -1495,6 +1521,14 @@ class Scene_Battle_TBS < Scene_Base
     end
   end
   #----------------------------------------------------------------------------
+  def actor_menu_interact
+    @cursor.range = draw_ranges(@active_battler, 9)
+    update_target_cursor
+    @cursor.mode = TBS_Cursor::Interact
+    @windows[Menu_Actor].active = false
+    @windows[Menu_Actor].visible = false 
+  end
+  #----------------------------------------------------------------------------
   def process_escape
     $game_message.add(sprintf(Vocab::EscapeStart, $game_party.name))
     success = BattleManager.preemptive ? true : (rand < BattleManager.make_escape_ratio)
@@ -1544,6 +1578,14 @@ class Scene_Battle_TBS < Scene_Base
     index = @windows[Menu_Actor].index
     oy = @windows[Menu_Actor].oy
     previous_equips = actor.equips
+
+    remove = []
+    armor_slot = 3
+    if not actor.equip_type_fixed?(armor_slot)
+      actor.fixed_equip_type.push(armor_slot)
+      remove.push(armor_slot)
+    end
+
     #---
     SceneManager.call(Scene_Equip)
     SceneManager.scene.main
@@ -1556,6 +1598,10 @@ class Scene_Battle_TBS < Scene_Base
     @windows[Menu_Actor].select(index)
     @windows[Menu_Actor].oy = oy
     @windows[Win_Status].refresh
+
+    for etype_id in remove
+      actor.fixed_equip_type.delete(etype_id)
+    end
     
     perform_short_transition
   end
@@ -1810,6 +1856,12 @@ class Scene_Battle_TBS < Scene_Base
       case confirm_trigger?
       when 0; confirm_attack
       when 1; cancel_attack
+      end
+    
+    when Command_Confirm::Interact      
+      case confirm_trigger?
+      when 0; confirm_interact
+      when 1; cancel_interact
       end
       
     when Command_Confirm::Skill
@@ -2102,9 +2154,18 @@ class Scene_Battle_TBS < Scene_Base
       attack_range_max, attack_range_min = weapon_range[0, 2]
       @cursor.target_area[0] = 7
       @cursor.target_area[1] = weapon_range[3] #Affect in line
-      @cursor.target_area[2] = false #exclude center (always false for weapons)
+      @cursor.target_area[2] = true #exclude center (always false for weapons)
       @cursor.target_area[3] = weapon_range[4] #AoE for weapon 
       @cursor.target_area[4] = weapon_range[6] # mod_MGC (aoe)
+    when 9  # interact
+      item_range = 1
+      @cursor.target_area[0] = 6 #heal
+      help_spell_range = 1
+      @cursor.target_area[1] = false #line_skill?
+      @cursor.target_area[2] = false #exclude_center?
+      @cursor.target_area[3] = 0 #AoE range
+      v_range = 0 # mod_MGC
+      @cursor.target_area[4] = 0 # mod_MGC (aoe)
     end
     
     if [1, 2, 3].include?(type) and battler.can_teleport? #if either teleport state enabled
@@ -2125,7 +2186,7 @@ class Scene_Battle_TBS < Scene_Base
       else
         attack_range = []
       end
-      #spell/itrem range
+      #spell/item range
       if @cursor.target_area[1]  #line ?
         help_range = battler.calc_pos_attack( help_spell_range, help_spell_min, @move_positions )
         attack_spell = battler.calc_pos_attack( attack_spell_range, attack_spell_min, @move_positions )
@@ -2299,6 +2360,61 @@ class Scene_Battle_TBS < Scene_Base
     clear_tr_sprites
   end
   #----------------------------------------------------------------------------
+  # Cancel Interact - Returns cursor control
+  #----------------------------------------------------------------------------
+  def cancel_interact
+    @cursor.active = true 
+  end
+  #----------------------------------------------------------------------------
+  # Confirm Interact - Interacts
+  #----------------------------------------------------------------------------
+  def confirm_interact
+    if @targets[0].is_a?(Game_Enemy)
+      loot = @targets[0].loot
+      for loot_item in loot
+        p "Loot Item #{loot_item}"
+        perc = rand(100)
+        if perc <= loot_item[2]
+          case loot_item[0]
+          when 0 #item
+            _item = $data_items[loot_item[1]]
+            @active_battler.gain_item(_item,1)
+          when 1 #weapon
+            _item = $data_weapons[loot_item[1]]
+            @active_battler.gain_item(_item,1)
+          when 2 #armor
+            _item = $data_armors[loot_item[1]]
+            @active_battler.gain_item(_item,1)
+          when 3 #gold
+            $game_party.gain_gold(loot_item[1])
+          end
+        end
+      end
+    else
+      Graphics.freeze
+
+      for win in @windows.values
+        win.hide
+        win.deactivate
+      end
+    
+      $game_party.lock_trade(@active_battler, @targets[0])
+      #---
+      SceneManager.call(Scene_ActorTrade)
+      SceneManager.scene.main
+      SceneManager.force_recall(self)
+      #---
+      $game_party.unlock_trade()
+      
+      perform_short_transition
+    end
+    
+    @active_battler.perf_action = true
+    @windows[Menu_Actor].setup(@active_battler)
+    actor_menu_open
+    clear_tr_sprites
+  end
+  #----------------------------------------------------------------------------
   # Update the Status Window with the selected dead target (for item or spell)
   #----------------------------------------------------------------------------
   def update_status_revive(skill)
@@ -2465,6 +2581,15 @@ class Scene_Battle_TBS < Scene_Base
   #-------------------------------------------------------------------------
   def get_targets
     targets = @active_battler.get_targets
+    @cursor.set_targets(targets)
+    return targets
+  end
+  #-------------------------------------------------------------------------
+  # Get Interact Targets - Determines interact targets in target_cursor area  
+  #-------------------------------------------------------------------------
+  def get_interact_targets
+    targets = @cursor.targeted_battlers
+    targets = targets.select{|target| (target.dead? == true && target.is_a?(Game_Enemy)) || target.is_a?(Game_Actor)}
     @cursor.set_targets(targets)
     return targets
   end

@@ -21,6 +21,7 @@ class Game_Party < Game_Unit
   attr_reader   :gold                     # party's gold
   attr_reader   :steps                    # number of steps
   attr_reader   :last_item                # for cursor memorization:  item
+  attr_accessor :traders                  # two actors currently trading
   #--------------------------------------------------------------------------
   # * Object Initialization
   #--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ class Game_Party < Game_Unit
     @menu_actor_id = 0
     @target_actor_id = 0
     @actors = []
+    @traders = nil
     init_all_items
   end
   #--------------------------------------------------------------------------
@@ -199,6 +201,18 @@ class Game_Party < Game_Unit
   #--------------------------------------------------------------------------
   def max_gold
     return 99999999
+  end
+  #--------------------------------------------------------------------------
+  # * Lock Trade
+  #--------------------------------------------------------------------------
+  def lock_trade(trader1, trader2)
+    @traders = [trader1, trader2]
+  end
+  #--------------------------------------------------------------------------
+  # * Unlock Trade
+  #--------------------------------------------------------------------------
+  def unlock_trade()
+    @traders = nil
   end
   #--------------------------------------------------------------------------
   # * Increase Steps

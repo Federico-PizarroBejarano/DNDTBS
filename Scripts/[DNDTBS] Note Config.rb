@@ -6,16 +6,17 @@ module DNDTBS
   #==============================================================
   # case ConfigType
   # when 0
-  #   set true
+  #   Call lambda without additional arg (only obj)
   # when 1
-  #   save int
+  #   Call lambda with arg converted to int
   # when 2
-  #   save string    
+  #   Call lambda with arg
   #==============================================================
 
   # DATA_WEAPONS Config
   DND_WEAPONS_EASY_CONFIG = [
     [->(obj){ obj.DND_melee_weapon = true }, /(^melee)/i, 0],
+    [->(obj){ obj.DND_thrown_weapon = true }, /(^thrown)/i, 0],
     [->(obj, val){ obj.DND_dmg_die = val }, /^dmg_die\s*=\s*(\-*\d+)/i, 1],
     [->(obj, val){ obj.DND_dmg_dice_num = val }, /^dmg_dice_num\s*=\s*(\-*\d+)/i, 1],
     [->(obj){ obj.DND_finesse_weapon = true }, /(^finesse)/i, 0],
@@ -43,6 +44,7 @@ module DNDTBS
     [->(obj, val){ obj.cha = val }, /^cha\s*=\s*(\d+)/i, 1],
     [->(obj, val){ obj.prof_bonus = val }, /^prof_bonus\s*=\s*(\d+)/i, 1],
     [->(obj, val){ obj.move = val }, /^move\s*=\s*(\d+)/i, 1],
+    [->(obj, val){ obj.loot += val }, /^loot\s*=\s*(\[\s*(\[\s*\d+\s*,\s*\d+\s*,\s*\d+\s*],?)+\])/i, 2],
   ]
   
   # DATA_ACTORS Config
@@ -55,6 +57,7 @@ module DNDTBS
     [->(obj, val){ obj.cha = val }, /^cha\s*=\s*(\d+)/i, 1],
     [->(obj, val){ obj.prof_bonus = val }, /^prof_bonus\s*=\s*(\d+)/i, 1],
     [->(obj, val){ obj.move = val }, /^move\s*=\s*(\d+)/i, 1],
+    [->(obj){ obj.npc = true }, /(^npc)/i, 0],
   ]
   
   # type = name of the file
@@ -93,11 +96,11 @@ module DNDTBS
         line_note.scan(config[1])
         if $1
           case config[2]
-          when 2 # set string
-            config[0].call(obj, $1)
-          when 1 # set int
+          when 2  # Call lambda
+            config[0].call(obj, eval($1))
+          when 1  # Convert to int then call lambda
             config[0].call(obj, $1.to_i)
-          when 0 # set to true
+          when 0  # Call lambda without arg
             config[0].call(obj)
           else
             raise "Invalid note config type"

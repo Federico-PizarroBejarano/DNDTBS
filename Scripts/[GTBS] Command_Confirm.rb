@@ -13,6 +13,7 @@ class Command_Confirm < TBS_Window_Selectable
   Skill = 'skill'
   Attack = 'attack'
   Move = 'move'
+  Interact = 'interact'
   Wait_Skill_Targeting = 'wait_target'  
   #----------------------------------------------------------------------------
   # * Object Initialization
@@ -127,6 +128,9 @@ class Command_Confirm < TBS_Window_Selectable
     when Attack
       text = Vocab_GTBS::Attack_Here
       self.visible = GTBS::ATTACK_CONFIRM
+    when Interact
+      text = Vocab_DNDTBS::Interact_Here
+      self.visible = true
     when Skill
       case args[1]
       when Wait_Skill_Targeting
@@ -156,4 +160,3 @@ class Command_Confirm < TBS_Window_Selectable
     self.active = true
   end 
 end
-
