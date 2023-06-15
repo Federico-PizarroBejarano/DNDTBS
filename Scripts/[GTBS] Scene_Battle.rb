@@ -1496,6 +1496,7 @@ class Scene_Battle_TBS < Scene_Base
   #----------------------------------------------------------------------------
   def actor_menu_defend
     active_battler.guarding = true
+    check_batevent_trigger
     actor_menu_wait
   end
   #----------------------------------------------------------------------------
@@ -1765,7 +1766,7 @@ class Scene_Battle_TBS < Scene_Base
       exist = false
       actor = $game_actors[@fail_val]
       if (tactics_dead.include?(actor))
-        p "Failre to protect #{actor.name}"
+        p "Failure to protect #{actor.name}"
         add_fail_com
       end
     end
@@ -2390,7 +2391,7 @@ class Scene_Battle_TBS < Scene_Base
           end
         end
       end
-    else
+    elsif @targets[0].is_a?(Game_Actor)
       Graphics.freeze
 
       for win in @windows.values
@@ -2407,6 +2408,12 @@ class Scene_Battle_TBS < Scene_Base
       $game_party.unlock_trade()
       
       perform_short_transition
+    else
+      event = @targets[0]
+      if event[1].trigger == 0
+        p "Triggering event #{event[1].name}"
+        event[1].start
+      end
     end
     
     @active_battler.perf_action = true
@@ -2591,6 +2598,15 @@ class Scene_Battle_TBS < Scene_Base
     targets = @cursor.targeted_battlers
     targets = targets.select{|target| (target.dead? == true && target.is_a?(Game_Enemy)) || target.is_a?(Game_Actor)}
     @cursor.set_targets(targets)
+    if targets.size == 0
+      for event in $game_map.events
+        if event[1].x == @cursor.x && event[1].y == @cursor.y
+          targets.push(event)
+          break
+        end
+      end    
+    end
+
     return targets
   end
   #--------------------------------------------------------------------------
@@ -2840,7 +2856,7 @@ class Scene_Battle_TBS < Scene_Base
       @windows[Win_Confirm].ask(Command_Confirm::Skill, type)
       @windows[Win_Status].dmg_preview(2, @active_battler, @spell, @targets)
       
-    elsif @targets.size >0 #unless targets 0 or less for some reason
+    elsif @targets.size > 0 #unless targets 0 or less for some reason
       #make summons miss when cell is occupied
       if (GTBS::is_summon?(@spell.id, @active_battler.is_a?(Game_Actor))> 0 && occupied_by?(@cursor.x, @cursor.y)!= nil) or 
         (@spell.for_opponent? && (@selected == @active_battler && !GTBS::ATTACK_ALLIES) &&
